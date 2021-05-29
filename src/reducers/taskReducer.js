@@ -14,6 +14,12 @@ const initialState = {
         track: [],
         frames: [],
     },
+    tleData: {
+        satellite: null,
+        line1: null,
+        line2: null,
+        frames: [],
+    },
     system: null,
 };
 
@@ -163,6 +169,55 @@ export const tasksReducer = (state = initialState, action) => {
             return {
                 ...state,
                 trackingData: newTrackingData,
+            }
+        }
+
+        case TASK_ACTIONS.ADD_TLE_TASK_FRAME: {
+            const emptyFrame = {
+                exposure: null,
+                date: null,
+                time: null,
+            };
+            const newData = Object.assign({}, state.tleData);
+            newData.frames.push(emptyFrame);
+            return {
+                ...state,
+                tleData: newData,
+            }
+        }
+
+        case TASK_ACTIONS.DELETE_TLE_TASK_FRAME: {
+            const { index } = action.payload;
+            let newData = Object.assign({}, state.tleData);
+            newData.frames = newData.frames.filter( (el, i) => i!== index);
+            return {
+                ...state,
+                tleData: newData,
+            }
+        }
+
+        case TASK_ACTIONS.CHANGE_TLE_TASK_FORM_FIELD: {
+            const { fieldName, value } = action.payload;
+            const tleData = Object.assign({}, state.tleData);
+            tleData[fieldName] = value;
+            return {
+                ...state,
+                tleData: {
+                    ...state.tleData,
+                    [fieldName]: value,
+                }
+            }
+        }
+
+        case TASK_ACTIONS.CHANGE_TLE_TASK_FRAME_FORM_FIELD: {
+            const { index, fieldName, value } = action.payload;
+            const tleData = Object.assign({}, state.tleData);
+            const frame = tleData.frames[index];
+            frame[fieldName] = value;
+            console.log( index, fieldName, value, frame);
+            return {
+                ...state,
+                tleData
             }
         }
 

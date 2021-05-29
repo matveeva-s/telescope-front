@@ -13,6 +13,8 @@ import {
     changeTrackingTaskFormField,
     addTrackingTaskFrame,
     addTrackingTaskTrack,
+    deleteTrackingTaskFrame,
+    changeTrackingTaskFrameFormField,
 } from "../actions/taskActions";
 
 class TrackingTaskComponent extends Component {
@@ -21,6 +23,8 @@ class TrackingTaskComponent extends Component {
         changeTrackingTaskFormField: PropTypes.func.isRequired,
         addTrackingTaskTrack: PropTypes.func.isRequired,
         addTrackingTaskFrame: PropTypes.func.isRequired,
+        deleteTrackingTaskFrame: PropTypes.func.isRequired,
+        changeTrackingTaskFrameFormField: PropTypes.func.isRequired,
     };
 
     componentDidMount() {
@@ -94,6 +98,8 @@ class TrackingTaskComponent extends Component {
                     <div className="subtitle-text">Моменты для съемки</div>
                     { trackingData && trackingData.frames.map((el, index) =>
                         <FrameForm
+                            changeFrame={ this.props.changeTrackingTaskFrameFormField }
+                            deleteFrame={ this.props.deleteTrackingTaskFrame }
                             index={ index }
                             frame={ el }
                             key={ el }
@@ -103,7 +109,7 @@ class TrackingTaskComponent extends Component {
                         <Button
                             onClick={ () => this.props.addTrackingTaskFrame() }
                             className="add-new-point-button"
-                            disabled={ trackingData && trackingData.track.length > 10 }
+                            disabled={ trackingData && trackingData.frames.length > 10 }
                         >
                             + добавить фрейм
                         </Button>
@@ -123,6 +129,8 @@ const mapDispatchToProps = {
     changeTrackingTaskFormField,
     addTrackingTaskTrack,
     addTrackingTaskFrame,
+    deleteTrackingTaskFrame,
+    changeTrackingTaskFrameFormField,
 };
 
 export const TrackingTask = connect(

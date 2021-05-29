@@ -115,3 +115,33 @@ export const changeTrackingTaskFrameFormField = (index, fieldName, value) => dis
       payload: { index, fieldName, value }
   })
 };
+
+// tle task actions
+
+export const changeTLETaskFormField = (fieldName, value) => dispatch => {
+    return dispatch({
+      type: TASK_ACTIONS.CHANGE_TLE_TASK_FORM_FIELD,
+      payload: { fieldName, value },
+  })
+};
+
+export const addTLETaskFrame = () => dispatch => {
+    return dispatch({
+      type: TASK_ACTIONS.ADD_TLE_TASK_FRAME,
+  })
+};
+
+export const changeTLETaskFrameFormField = (index, fieldName, value) => dispatch => {
+  return dispatch({
+      type: TASK_ACTIONS.CHANGE_TLE_TASK_FRAME_FORM_FIELD,
+      payload: { index, fieldName, value }
+  })
+};
+
+
+export const deleteTLETaskFrame = (index) => dispatch => {
+    return dispatch({
+      type: TASK_ACTIONS.DELETE_TLE_TASK_FRAME,
+      payload: { index },
+  })
+};

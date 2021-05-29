@@ -16,8 +16,6 @@ import {
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import format from "date-fns/format";
-
-import { deleteTrackingTaskFrame, changeTrackingTaskFrameFormField } from "../actions/taskActions";
 import '../styles/newTask.css';
 
 
@@ -32,10 +30,10 @@ class RuLocalizedUtils extends DateFnsUtils {
 }
 
 
-class FrameFormComponent extends Component {
+export class FrameForm extends Component {
     static propTypes = {
-        changeTrackingTaskFrameFormField: PropTypes.func.isRequired,
-        deleteTrackingTaskFrame: PropTypes.func.isRequired,
+        changeFrame: PropTypes.func.isRequired,
+        deleteFrame: PropTypes.func.isRequired,
         index: PropTypes.number.isRequired,
         frame: PropTypes.shape().isRequired,
     };
@@ -52,7 +50,7 @@ class FrameFormComponent extends Component {
                             placeholder="Выдержка"
                             label="Выдержка"
                             value={ exposure || null }
-                            onChange={ event => this.props.changeTrackingTaskFrameFormField(index, 'exposure', parseInt(event.target.value)) }
+                            onChange={ event => this.props.changeFrame(index, 'exposure', parseInt(event.target.value)) }
                             type="number"
                         />
                     </FormControl>
@@ -67,7 +65,7 @@ class FrameFormComponent extends Component {
                             cancelLabel='Отмена'
                             label="Дата снимка"
                             value={ date }
-                            onChange={ value => this.props.changeTrackingTaskFrameFormField(index, 'date', value) }
+                            onChange={ value => this.props.changeFrame(index, 'date', value) }
                             KeyboardButtonProps={{
                                 'aria-label': 'change date',
                             }}
@@ -88,7 +86,7 @@ class FrameFormComponent extends Component {
                             cancelLabel='Отмена'
                             label="Время снимка"
                             value={ time }
-                            onChange={ value => this.props.changeTrackingTaskFrameFormField(index, 'time', value) }
+                            onChange={ value => this.props.changeFrame(index, 'time', value) }
                             keyboardIcon={ <AccessTimeIcon/> }
                             className="track-time-field"
                         />
@@ -96,7 +94,7 @@ class FrameFormComponent extends Component {
                 </div>
                 <div className="clear-point-button">
                     <IconButton
-                        onClick={ () => this.props.deleteTrackingTaskFrame(index) }
+                        onClick={ () => this.props.deleteFrame(index) }
                     >
                         <ClearIcon
                             fontSize="large"
@@ -108,18 +106,3 @@ class FrameFormComponent extends Component {
         )
     }
 }
-
-
-const mapStateToProps = ({ tasksReducer }) => ({
-    taskType: tasksReducer.taskType,
-});
-
-const mapDispatchToProps = {
-    deleteTrackingTaskFrame,
-    changeTrackingTaskFrameFormField,
-};
-
-export const FrameForm = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FrameFormComponent);

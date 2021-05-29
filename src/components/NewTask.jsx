@@ -14,6 +14,7 @@ import SendIcon from '@material-ui/icons/Send';
 import { tasksTypes } from '../constants/appConstants';
 import { PointsTask } from "./PointsTask";
 import { TrackingTask } from "./TrackingTask";
+import { TLETask } from "./TLETask";
 import {
     getTelescopesWithBalances, changeFormField, savePointTask,
 } from "../actions/taskActions";
@@ -108,8 +109,9 @@ class NewTaskComponent extends Component {
                                         </Select>
                                   </FormControl>
                             </div>
-                            { taskType === 1 && <PointsTask/>}
-                            { taskType === 2 && <TrackingTask/>}
+                            { taskType === 1 && <PointsTask/> }
+                            { taskType === 2 && <TrackingTask/> }
+                            { taskType === 3 && <TLETask/> }
                             <div className="timing-saving-container">
                                 { this.timingText }
                                 <div className="save-task-button">
