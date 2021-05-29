@@ -11,8 +11,6 @@ const store = configureStore();
 
 const isAuthentificated = !!(localStorage.getItem("refresh_token") && localStorage.getItem("access_token"));
 
-console.log('isAuthentificated = ', isAuthentificated);
-
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>

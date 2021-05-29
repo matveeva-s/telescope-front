@@ -1,0 +1,187 @@
+.new-task-container {
+    width: 93%;
+    margin: 1vw auto;
+}
+
+.new-task-title {
+    position: relative;
+    padding-top: 1.5vw;
+    padding-bottom: 5vh;
+    margin-left: -0.7vw;
+    font-size: 30px;
+    font-weight: 500;
+    font-family: 'Raleway', sans-serif;
+    color: #12143D;
+}
+
+.new-task-form {
+    display: flex;
+    flex-direction: column;
+    margin: 1vw 2vw;
+}
+
+.new-task-selector {
+    width: 350px;
+}
+
+.new-task-selector-container {
+    padding-bottom: 30px;
+}
+
+.point-form-container {
+    display: flex;
+    position: relative;
+    margin-bottom: 24px;
+    justify-content: space-between;
+}
+
+.point-satellite-field {
+    width: 8.5vw;
+}
+
+.point-system-field {
+    width: 10.5vw;
+}
+
+.point-mag-field {
+    width: 130px;
+}
+
+.point-coordinate-field {
+    width: 8.5vw;
+}
+
+.point-exp-field {
+    width: 7.8vw;
+}
+
+.point-date-field {
+    width: 12.5vw;
+    font-size: 10px;
+}
+
+.point-time-field {
+    width: 14vw;
+}
+
+.add-new-point-button {
+    margin: 16px 0;
+}
+
+.clear-point-button {
+    margin-left: -0.8vw;
+}
+
+.timing-saving-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-left: 1vw;
+    margin-right: 4vw;
+}
+
+.save-task-button {
+    margin-bottom: 30px;
+    justify-content: flex-end;
+}
+
+.timing-text-container {
+    font-size: 16px;
+    padding-top: 10px;
+    font-weight: 300;
+    max-width: 60vw;
+    font-family: 'Raleway', sans-serif;
+    color: green;
+    margin-right: auto;
+}
+
+.timing-error-text-container {
+    font-size: 16px;
+    padding-top: 10px;
+    font-weight: 300;
+    max-width: 60vw;
+    font-family: 'Raleway', sans-serif;
+    color: red;
+    margin-right: auto;
+}
+
+
+.tracking-task-form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.tracking-task-main-fields-container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2vh;
+    margin-bottom: 5vh;
+}
+
+.tracking-task-satellite-field {
+    margin-right: 1vw;
+}
+
+.tracking-task-mag-field {
+    margin-right: 1vw;
+}
+
+.tracking-task-count-field {
+    margin-right: 1vw;
+}
+
+.track-form-container {
+    display: flex;
+    position: relative;
+    margin-top: 3vh;
+    margin-bottom: 1vh;
+}
+
+.subtitle-text {
+    position: relative;
+    padding-top: 1.5vh;
+    padding-bottom: 1.5vh;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: 'Raleway', sans-serif;
+    color: #12143D;
+}
+
+.track-field {
+    margin-right: 1vw;
+}
+
+.track-date-field {
+    font-size: 10px;
+    width: 195px;
+}
+
+.track-time-field {
+    font-size: 10px;
+    width: 195px;
+}
+
+.frame-exposure-field {
+    width: 195px;
+}
+
+.frame-form-container {
+    display: flex;
+    position: relative;
+    margin-top: 3vh;
+    margin-bottom: 1vh;
+}
+
+.frame-field {
+    margin-right: 1vw;
+}
+
+.frame-date-field {
+    font-size: 10px;
+    width: 195px;
+}
+
+.frame-time-field {
+    font-size: 10px;
+    width: 195px;
+}

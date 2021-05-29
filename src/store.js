@@ -17,10 +17,13 @@ import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { apiMiddleware } from 'redux-api-middleware';
 import { userReducer } from './reducers/userReducer';
-
+import { telescopeReducer } from "./reducers/telescopeReducer";
+import { tasksReducer } from "./reducers/taskReducer";
 
 const reducer = combineReducers({
-    userReducer
+    userReducer,
+    telescopeReducer,
+    tasksReducer,
 });
 
 export default function configureStore(initialState = {}) {

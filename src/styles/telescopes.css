@@ -1,0 +1,14 @@
+.telescope-name-container {
+    display: flex;
+}
+
+.telescope-online-green-circle {
+    background: green;
+    clip-path: circle(50%);
+    height: 10px;
+    width: 10px;
+    box-shadow: 0 10px 0 10px;
+    overflow: visible;
+    margin-left: 10px;
+    margin-top: 4px;
+}

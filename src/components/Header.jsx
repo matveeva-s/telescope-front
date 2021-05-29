@@ -11,7 +11,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { LogoTitleHeader } from "./LogoTitle";
 import { headerTheme} from "../styles/themes";
-import { navigationLinks, navigationMenuStyles } from "../constants";
+import { navigationLinks } from "../constants/appConstants";
+import { navigationMenuStyles } from "../styles/styles";
 import "../styles/header.css";
 
 

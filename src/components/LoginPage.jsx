@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 
+import { ThemeProvider } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -12,6 +13,7 @@ import axiosInstance from "../axiosApi";
 import '../styles/loginPage.css';
 import { getUserInfo } from "../actions/userActions";
 import PropTypes from "prop-types";
+import { mainTheme } from '../styles/themes';
 
 
 const homePageUrl = '/';
@@ -44,6 +46,7 @@ class LoginComponent extends Component {
             });
             const data = response.data;
             axiosInstance.defaults.headers['Authorization'] = "JWT " + data.access;
+            console.log('access_token', data.access);
             localStorage.setItem('access_token', data.access);
             localStorage.setItem('refresh_token', data.refresh);
             setTimeout(
@@ -66,67 +69,69 @@ class LoginComponent extends Component {
         const { username, password } = this.state;
         return (
             <div className="login_page">
-                <div className="login_page--background_img"/>
-                <div className="login_page--main-data">
-                    { LogoTitleBig }
-                    <div className="login_page--slogan-text">Система дистанционного доступа<br/>и управления сетью телескопов</div>
-                    <form className="login_page--form-container" onSubmit={ this.handleSubmit }>
-                        <div className="login_page--form-element">
-                            <TextField
-                                name="username"
-                                placeholder="Адрес email"
-                                value={ username }
-                                onChange={ this.handleChange }
-                                className="login_page--form-input"
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <EmailIcon />
-                                        </InputAdornment>
-                                    ),
-                                }}
-                            />
-                        </div>
-                        <div className="login_page--form-element">
-                            <TextField
-                                name="password"
-                                placeholder="Пароль"
-                                value={ password }
-                                type="password"
-                                onChange={ this.handleChange }
-                                className="login_page--form-input"
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <VpnKeyIcon />
-                                        </InputAdornment>
-                                    ),
-                                }}
-                            />
-                        </div>
-                        <div className="login_page--form-element login_page--button-container">
-                            <Button
-                                variant="contained"
-                                onClick={ this.handleSubmit }
-                                className="login_page--form-button"
-                                disableElevation
-                                type="submit"
-                                size="large"
-                                color="inherit"
-                            >
-                                Войти
-                            </Button>
-                        </div>
-                        { this.state.isError
-                            ? (
-                                <div className="login_page--error-text">
-                                    Ошибка аутентефикации, повторите попытку
-                                </div>
-                            ) : null
-                        }
+                <ThemeProvider theme={ mainTheme }>
+                    <div className="login_page--background_img"/>
+                    <div className="login_page--main-data">
+                        { LogoTitleBig }
+                        <div className="login_page--slogan-text">Система дистанционного доступа<br/>и управления сетью телескопов</div>
+                        <form className="login_page--form-container" onSubmit={ this.handleSubmit }>
+                            <div className="login_page--form-element">
+                                <TextField
+                                    name="username"
+                                    placeholder="Адрес email"
+                                    value={ username }
+                                    onChange={ this.handleChange }
+                                    className="login_page--form-input"
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <EmailIcon />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </div>
+                            <div className="login_page--form-element">
+                                <TextField
+                                    name="password"
+                                    placeholder="Пароль"
+                                    value={ password }
+                                    type="password"
+                                    onChange={ this.handleChange }
+                                    className="login_page--form-input"
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <VpnKeyIcon />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </div>
+                            <div className="login_page--form-element login_page--button-container">
+                                <Button
+                                    variant="contained"
+                                    onClick={ this.handleSubmit }
+                                    className="login_page--form-button"
+                                    disableElevation
+                                    type="submit"
+                                    size="large"
+                                    color="inherit"
+                                >
+                                    Войти
+                                </Button>
+                            </div>
+                            { this.state.isError
+                                ? (
+                                    <div className="login_page--error-text">
+                                        Ошибка аутентефикации, повторите попытку
+                                    </div>
+                                ) : null
+                            }
 
-                    </form>
-                </div>
+                        </form>
+                    </div>
+                </ThemeProvider>
             </div>
         )
     }
