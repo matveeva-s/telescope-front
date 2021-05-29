@@ -16,6 +16,8 @@ export const coordinateSystemTypes = [
     { value: 1, label: 'Звездная СК'},
 ];
 
+export const emptyValueErrorText = 'Это поле не должно быть пустым';
+
 export const telescopeTurnTime = 2*60;
 
 

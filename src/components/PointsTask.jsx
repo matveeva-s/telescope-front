@@ -11,6 +11,7 @@ import '../styles/newTask.css';
 class PointsTaskComponent extends Component {
     static propTypes = {
         points: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+        pointsErrors: PropTypes.arrayOf(PropTypes.shape()).isRequired,
         addPoint: PropTypes.func.isRequired,
     };
 
@@ -19,7 +20,7 @@ class PointsTaskComponent extends Component {
     }
 
     render() {
-        const { points } = this.props;
+        const { points, pointsErrors } = this.props;
         return (
             <div className="">
                 <div className="subtitle-text">Точки для съемки</div>
@@ -28,6 +29,7 @@ class PointsTaskComponent extends Component {
                         index={ index }
                         point={ el }
                         key={ el }
+                        errors={ pointsErrors[index] }
                     />
                     ) }
                 <div className="add-new-point-button">
@@ -47,6 +49,7 @@ class PointsTaskComponent extends Component {
 
 const mapStateToProps = ({ tasksReducer }) => ({
     points: tasksReducer.points,
+    pointsErrors: tasksReducer.pointsErrors,
 });
 
 const mapDispatchToProps = {

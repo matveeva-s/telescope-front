@@ -28,6 +28,13 @@ export const changeFormField = (fieldName, value) => dispatch => {
   })
 };
 
+export const raiseErrorInMainTaskPart = (fieldName, value) => dispatch => {
+  return dispatch({
+      type: TASK_ACTIONS.RAISE_ERROR_IN_MAIN_TASK_PART,
+      payload: { fieldName, value }
+  })
+};
+
 // for points task mode
 export const changePointFormField = (index, fieldName, value) => dispatch => {
   return dispatch({
@@ -63,6 +70,13 @@ export const savePointTask = (data) => dispatch => {
           TASK_ACTIONS.SAVE_POINT_TASK_FAIL,
       ]
     }
+  })
+};
+
+export const raiseErrorInPointsTask = (errors) => dispatch => {
+  return dispatch({
+      type: TASK_ACTIONS.RAISE_ERRORS_IN_POINTS_TASK,
+      payload: { errors },
   })
 };
 

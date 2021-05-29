@@ -7,6 +7,7 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import SendIcon from '@material-ui/icons/Send';
@@ -16,10 +17,16 @@ import { PointsTask } from "./PointsTask";
 import { TrackingTask } from "./TrackingTask";
 import { TLETask } from "./TLETask";
 import {
-    getTelescopesWithBalances, changeFormField, savePointTask,
+    getTelescopesWithBalances,
+    changeFormField,
+    savePointTask,
+    raiseErrorInMainTaskPart,
+    raiseErrorInPointsTask,
 } from "../actions/taskActions";
 import { preparePoints } from "../helpers/preparePostBody";
 import { countPointsTaskTiming } from "../helpers/timingCalculation";
+import { validatePointsTask } from "../helpers/valitators";
+import { emptyValueErrorText } from '../constants/appConstants';
 import { taskFormTheme } from '../styles/themes';
 import '../styles/newTask.css';
 
@@ -28,12 +35,16 @@ import '../styles/newTask.css';
 class NewTaskComponent extends Component {
     static propTypes = {
         getTelescopesWithBalances: PropTypes.func.isRequired,
+        raiseErrorInMainTaskPart: PropTypes.func.isRequired,
+        raiseErrorInPointsTask: PropTypes.func.isRequired,
         changeFormField: PropTypes.func.isRequired,
         savePointTask: PropTypes.func.isRequired,
         telescopes: PropTypes.arrayOf(PropTypes.shape()).isRequired,
         telescope: PropTypes.number.isRequired,
         taskType: PropTypes.number.isRequired,
         points: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+        telescopeError: PropTypes.bool.isRequired,
+        taskTypeError: PropTypes.bool.isRequired,
     };
 
     componentDidMount() {
@@ -67,16 +78,24 @@ class NewTaskComponent extends Component {
     }
 
     saveTask = () => {
+        const { telescope, taskType } = this.props;
+        if (!telescope) this.props.raiseErrorInMainTaskPart('telescope');
+        if (!taskType) this.props.raiseErrorInMainTaskPart('taskType');
         if (this.props.taskType === 1) {
-            const { telescope, points } = this.props;
-            //todo: validate points
-            const preparedPoints = preparePoints(points);
-            this.props.savePointTask({ telescope, points: preparedPoints });
+            const { points } = this.props;
+            const pointsErrors = validatePointsTask(points);
+            if (!pointsErrors) {
+                const preparedPoints = preparePoints(points);
+                this.props.savePointTask({ telescope, points: preparedPoints });
+            } else {
+                this.props.raiseErrorInPointsTask(pointsErrors);
+                return;
+            }
         }
     };
 
     render() {
-        const { telescopes, selectedTelescope, taskType } = this.props;
+        const { telescopes, telescope, taskType, telescopeError, taskTypeError } = this.props;
         return (
             <div className="new-task-container">
                 <Paper elevation={3} >
@@ -84,29 +103,33 @@ class NewTaskComponent extends Component {
                         <ThemeProvider theme={ taskFormTheme }>
                             <div className="new-task-title">Новое наблюдение</div>
                             <div className="new-task-selector-container">
-                                <FormControl className="new-task-selector" variant="outlined">
+                                <FormControl className="new-task-selector" variant="outlined" error={ telescopeError }>
                                     <InputLabel id="telescope-label">Телескоп</InputLabel>
                                         <Select
                                           labelId="telescope-label"
-                                          value={ selectedTelescope }
+                                          value={ telescope }
                                           label="Телескоп"
                                           onChange={ event => this.props.changeFormField('telescope', parseInt(event.target.value)) }
+                                          error={ telescopeError }
                                         >
                                             { telescopes.map(el => <MenuItem value={ el.value }>{ el.label }</MenuItem>) }
                                         </Select>
+                                  { telescopeError ? <FormHelperText>{ emptyValueErrorText }</FormHelperText> : null }
                                   </FormControl>
                             </div>
                             <div className="new-task-selector-container">
-                                <FormControl className="new-task-selector" variant="outlined">
+                                <FormControl className="new-task-selector" variant="outlined" error={ taskTypeError }>
                                     <InputLabel id="task-type-label">Тип наблюдения</InputLabel>
                                         <Select
                                           labelId="task-type-label"
                                           value={ taskType }
                                           label="Тип наблюдения"
                                           onChange={ event => this.props.changeFormField('taskType', event.target.value) }
+                                          error={ taskTypeError }
                                         >
                                             { tasksTypes.map(el => <MenuItem value={ el.value }>{ el.label }</MenuItem>) }
                                         </Select>
+                                  { taskTypeError ? <FormHelperText>{ emptyValueErrorText }</FormHelperText> : null }
                                   </FormControl>
                             </div>
                             { taskType === 1 && <PointsTask/> }
@@ -119,7 +142,7 @@ class NewTaskComponent extends Component {
                                         variant="contained"
                                         color="primary"
                                         onClick={ () => this.saveTask() }
-                                        disabled={ this.state.limitExceeded }
+                                        disabled={ this.state.limitExceeded  }
                                         endIcon={<SendIcon>Отправить на наблюдение</SendIcon>}
                                     >
                                         Отправить на наблюдение
@@ -141,12 +164,16 @@ const mapStateToProps = ({ tasksReducer }) => ({
     telescope: tasksReducer.telescope,
     taskType: tasksReducer.taskType,
     points: tasksReducer.points,
+    telescopeError: tasksReducer.telescopeError,
+    taskTypeError: tasksReducer.taskTypeError,
 });
 
 const mapDispatchToProps = {
     getTelescopesWithBalances,
     changeFormField,
     savePointTask,
+    raiseErrorInMainTaskPart,
+    raiseErrorInPointsTask,
 };
 
 export const NewTask = connect(

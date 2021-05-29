@@ -20,11 +20,17 @@ const initialState = {
         line2: null,
         frames: [],
     },
-    system: null,
+
+    telescopeError: false,
+    taskTypeError: false,
+    pointsErrors: [],
 };
 
 export const tasksReducer = (state = initialState, action) => {
     switch (action.type) {
+
+        // get telescopes and balances
+
         case TASK_ACTIONS.GET_TELESCOPE_WITH_BALANCES_START:
             return {
                 ...state,
@@ -45,21 +51,39 @@ export const tasksReducer = (state = initialState, action) => {
                 error: true,
             };
 
+        // main task actions
+
         case TASK_ACTIONS.CHANGE_FORM_FIELD: {
             const { fieldName, value } = action.payload;
+            const errorFieldName = fieldName + 'Error';
             return {
                 ...state,
                 [fieldName]: value,
+                [errorFieldName]: false,
             }
         }
+
+        case TASK_ACTIONS.RAISE_ERROR_IN_MAIN_TASK_PART: {
+            const { fieldName } = action.payload;
+            const errorFieldName = fieldName + 'Error';
+            return {
+                ...state,
+                [errorFieldName]: true,
+            }
+        }
+
+        // points task actions
 
         case TASK_ACTIONS.CHANGE_POINT_FORM_FIELD: {
             const { index, fieldName, value } = action.payload;
             const point = Object.assign({}, state.points[index]);
+            const error = Object.assign({}, state.pointsErrors[index]);
             point[fieldName] = value;
+            error[fieldName] = false;
             return {
                 ...state,
-                points: state.points.map((el, i) => i === index ? point : el)
+                points: state.points.map((el, i) => i === index ? point : el),
+                pointsErrors: state.pointsErrors.map((el, i) => i === index ? error : el),
             }
         }
         case TASK_ACTIONS.ADD_POINT: {
@@ -87,6 +111,31 @@ export const tasksReducer = (state = initialState, action) => {
                 points: state.points.filter( (el, i) => i!== index),
             }
         }
+
+        case TASK_ACTIONS.RAISE_ERRORS_IN_POINTS_TASK: {
+            const { errors } = action.payload;
+            const pointsErrors = [];
+            errors.map(el => {
+                const error = {
+                    satellite: false,
+                    mag: false,
+                    alpha: false,
+                    beta: false,
+                    exposure: false,
+                    systemType: false,
+                    date: false,
+                    time: false,
+                };
+                Object.keys(el).map(fieldName => error[fieldName] = true);
+                pointsErrors.push(error);
+            });
+            return {
+                ...state,
+                pointsErrors,
+            }
+        }
+
+        // tracking task actions
 
         case TASK_ACTIONS.CHANGE_TRACKING_TASK_FORM_FIELD: {
             const { fieldName, value } = action.payload;
@@ -171,6 +220,8 @@ export const tasksReducer = (state = initialState, action) => {
                 trackingData: newTrackingData,
             }
         }
+
+        // TLE task actions
 
         case TASK_ACTIONS.ADD_TLE_TASK_FRAME: {
             const emptyFrame = {
