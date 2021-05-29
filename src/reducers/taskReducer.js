@@ -214,7 +214,6 @@ export const tasksReducer = (state = initialState, action) => {
             const tleData = Object.assign({}, state.tleData);
             const frame = tleData.frames[index];
             frame[fieldName] = value;
-            console.log( index, fieldName, value, frame);
             return {
                 ...state,
                 tleData

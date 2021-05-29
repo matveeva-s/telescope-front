@@ -22,6 +22,7 @@ class PointsTaskComponent extends Component {
         const { points } = this.props;
         return (
             <div className="">
+                <div className="subtitle-text">Точки для съемки</div>
                 { points && points.map((el, index) =>
                     <PointForm
                         index={ index }

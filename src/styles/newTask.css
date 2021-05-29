@@ -31,7 +31,8 @@
 .point-form-container {
     display: flex;
     position: relative;
-    margin-bottom: 24px;
+    margin-top: 3vh;
+    margin-bottom: 1vh;
     justify-content: space-between;
 }
 
