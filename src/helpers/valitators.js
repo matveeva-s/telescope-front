@@ -19,3 +19,36 @@ export const validatePointsTask = points => {
     return wrongFieldsCount > 0 ?  errors : null;
 };
 
+
+export const validateTrackingData = (trackingData) => {
+    let trackingError = {
+        satellite: !trackingData.satellite,
+        mag: !trackingData.mag,
+        count: !trackingData.count,
+        track: [],
+        frames: [],
+    };
+    let isError = trackingError.satellite || trackingError.count || trackingData.mag;
+    trackingData.track.map(({ alpha, beta, date, time }) => {
+        const error = {
+            alpha: !alpha,
+            beta: !beta,
+            date: !date,
+            time: !time,
+        };
+        isError = isError || !alpha || !beta || !date || !time;
+        trackingError.track.push(error);
+    });
+    trackingData.frames.map(({ exposure, date, time }) => {
+        const error = {
+            exposure: !exposure,
+            date: !date,
+            time: !time,
+        };
+        isError = isError || !exposure || !date || !time;
+        trackingError.frames.push(error);
+    });
+
+
+    return { isError, errors: trackingError };
+};

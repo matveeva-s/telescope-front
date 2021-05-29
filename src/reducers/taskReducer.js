@@ -24,6 +24,13 @@ const initialState = {
     telescopeError: false,
     taskTypeError: false,
     pointsErrors: [],
+    trackingDataErrors: {
+        satellite: false,
+        mag: false,
+        count: false,
+        track: [],
+        frames: [],
+    },
 };
 
 export const tasksReducer = (state = initialState, action) => {
@@ -144,7 +151,19 @@ export const tasksReducer = (state = initialState, action) => {
                 trackingData: {
                     ...state.trackingData,
                     [fieldName]: value,
-                }
+                },
+                trackingDataErrors: {
+                    ...state.trackingDataErrors,
+                    [fieldName]: false,
+                },
+            }
+        }
+
+        case TASK_ACTIONS.RAISE_ERRORS_IN_TRACKING_TASK: {
+            const { errors } = action.payload;
+            return {
+                ...state,
+                trackingDataErrors: errors,
             }
         }
 
@@ -200,24 +219,33 @@ export const tasksReducer = (state = initialState, action) => {
         case TASK_ACTIONS.CHANGE_TRACKING_TASK_TRACK_FORM_FIELD: {
             const { index, fieldName, value } = action.payload;
             let newTrackingData = Object.assign({}, state.trackingData);
+            let newTrackingDataErrors = Object.assign({}, state.trackingDataErrors);
             const track = Object.assign({}, newTrackingData.track[index]);
+            const trackError = state.trackingDataErrors.track[index];
+            trackError[fieldName] = false;
             track[fieldName] = value;
             newTrackingData.track = newTrackingData.track.map((el, i) => i === index ? track : el);
+            newTrackingDataErrors.track = newTrackingDataErrors.track.map((el, i) => i === index ? trackError : el);
             return {
                 ...state,
                 trackingData: newTrackingData,
+                trackingDataErrors: newTrackingDataErrors,
             }
         }
 
         case TASK_ACTIONS.CHANGE_TRACKING_TASK_FRAME_FORM_FIELD: {
             const { index, fieldName, value } = action.payload;
             let newTrackingData = Object.assign({}, state.trackingData);
+            let newTrackingDataErrors = Object.assign({}, state.trackingDataErrors);
             const frame = Object.assign({}, newTrackingData.frames[index]);
+            const frameError = state.trackingDataErrors.frames[index];
+            frameError[fieldName] = false;
             frame[fieldName] = value;
             newTrackingData.frames = newTrackingData.frames.map((el, i) => i === index ? frame : el);
             return {
                 ...state,
                 trackingData: newTrackingData,
+                trackingDataErrors: newTrackingDataErrors,
             }
         }
 

@@ -22,10 +22,11 @@ import {
     savePointTask,
     raiseErrorInMainTaskPart,
     raiseErrorInPointsTask,
+    raiseErrorInTrackingTask,
 } from "../actions/taskActions";
 import { preparePoints } from "../helpers/preparePostBody";
 import { countPointsTaskTiming } from "../helpers/timingCalculation";
-import { validatePointsTask } from "../helpers/valitators";
+import { validatePointsTask, validateTrackingData } from "../helpers/valitators";
 import { emptyValueErrorText } from '../constants/appConstants';
 import { taskFormTheme } from '../styles/themes';
 import '../styles/newTask.css';
@@ -37,12 +38,14 @@ class NewTaskComponent extends Component {
         getTelescopesWithBalances: PropTypes.func.isRequired,
         raiseErrorInMainTaskPart: PropTypes.func.isRequired,
         raiseErrorInPointsTask: PropTypes.func.isRequired,
+        raiseErrorInTrackingTask: PropTypes.func.isRequired,
         changeFormField: PropTypes.func.isRequired,
         savePointTask: PropTypes.func.isRequired,
         telescopes: PropTypes.arrayOf(PropTypes.shape()).isRequired,
         telescope: PropTypes.number.isRequired,
         taskType: PropTypes.number.isRequired,
         points: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+        trackingData: PropTypes.shape().isRequired,
         telescopeError: PropTypes.bool.isRequired,
         taskTypeError: PropTypes.bool.isRequired,
     };
@@ -89,6 +92,17 @@ class NewTaskComponent extends Component {
                 this.props.savePointTask({ telescope, points: preparedPoints });
             } else {
                 this.props.raiseErrorInPointsTask(pointsErrors);
+                return;
+            }
+        }
+        if (this.props.taskType === 2) {
+            const { trackingData } = this.props;
+            const { isError, errors } = validateTrackingData(trackingData);
+            if (!isError) {
+                // const preparedPoints = preparePoints(trackingData);
+                // this.props.savePointTask({ telescope, points: preparedPoints });
+            } else {
+                this.props.raiseErrorInTrackingTask(errors);
                 return;
             }
         }
@@ -142,7 +156,7 @@ class NewTaskComponent extends Component {
                                         variant="contained"
                                         color="primary"
                                         onClick={ () => this.saveTask() }
-                                        disabled={ this.state.limitExceeded  }
+                                        disabled={ this.state.limitExceeded || !taskType }
                                         endIcon={<SendIcon>Отправить на наблюдение</SendIcon>}
                                     >
                                         Отправить на наблюдение
@@ -164,6 +178,7 @@ const mapStateToProps = ({ tasksReducer }) => ({
     telescope: tasksReducer.telescope,
     taskType: tasksReducer.taskType,
     points: tasksReducer.points,
+    trackingData: tasksReducer.trackingData,
     telescopeError: tasksReducer.telescopeError,
     taskTypeError: tasksReducer.taskTypeError,
 });
@@ -174,6 +189,7 @@ const mapDispatchToProps = {
     savePointTask,
     raiseErrorInMainTaskPart,
     raiseErrorInPointsTask,
+    raiseErrorInTrackingTask,
 };
 
 export const NewTask = connect(

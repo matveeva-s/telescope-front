@@ -16,10 +16,12 @@ import {
     deleteTrackingTaskFrame,
     changeTrackingTaskFrameFormField,
 } from "../actions/taskActions";
+import { emptyValueErrorText} from "../constants/appConstants";
 
 class TrackingTaskComponent extends Component {
     static propTypes = {
         trackingData: PropTypes.shape().isRequired,
+        trackingDataErrors: PropTypes.shape().isRequired,
         changeTrackingTaskFormField: PropTypes.func.isRequired,
         addTrackingTaskTrack: PropTypes.func.isRequired,
         addTrackingTaskFrame: PropTypes.func.isRequired,
@@ -33,7 +35,15 @@ class TrackingTaskComponent extends Component {
     }
 
     render() {
-        const { trackingData } = this.props;
+        const { trackingData, trackingDataErrors } = this.props;
+        let satellite = null;
+        let mag = null;
+        let count = null;
+        if (trackingData) {
+            satellite = trackingData.satellite;
+            mag = trackingData.mag;
+            count = trackingData.count;
+        }
         return (
             <div className="tracking-task-form-container">
                 <div className="subtitle-text">Основные данные спутника</div>
@@ -44,9 +54,11 @@ class TrackingTaskComponent extends Component {
                                 variant="outlined"
                                 placeholder="ID спутника"
                                 label="ID спутника"
-                                value={ trackingData && trackingData.satellite || null }
+                                value={ satellite }
                                 onChange={ event => this.props.changeTrackingTaskFormField('satellite', parseInt(event.target.value)) }
                                 type="number"
+                                error={ trackingDataErrors && trackingDataErrors.satellite }
+                                helperText={ trackingDataErrors && trackingDataErrors.satellite ? emptyValueErrorText : null }
                             />
                         </FormControl>
                     </div>
@@ -56,9 +68,11 @@ class TrackingTaskComponent extends Component {
                                 variant="outlined"
                                 placeholder="Зв. величина"
                                 label="Зв. величина"
-                                value={ trackingData && trackingData.mag || null }
+                                value={ mag }
                                 onChange={ event => this.props.changeTrackingTaskFormField('mag', parseFloat(event.target.value)) }
                                 type="number"
+                                error={ trackingDataErrors && trackingDataErrors.mag }
+                                helperText={ trackingDataErrors && trackingDataErrors.mag ? emptyValueErrorText : null }
                             />
                         </FormControl>
                     </div>
@@ -68,9 +82,11 @@ class TrackingTaskComponent extends Component {
                                 variant="outlined"
                                 placeholder="COUNT"
                                 label="COUNT"
-                                value={ trackingData && trackingData.count || null }
+                                value={ count }
                                 onChange={ event => this.props.changeTrackingTaskFormField('count', parseInt(event.target.value)) }
                                 type="number"
+                                error={ trackingDataErrors && trackingDataErrors.count }
+                                helperText={ trackingDataErrors && trackingDataErrors.count ? emptyValueErrorText : null }
                             />
                         </FormControl>
                     </div>
@@ -82,6 +98,7 @@ class TrackingTaskComponent extends Component {
                             index={ index }
                             track={ el }
                             key={ el }
+                            errors={ trackingDataErrors ? trackingDataErrors.track[index] : null }
                         />
                     ) }
                     <div className="add-new-point-button">
@@ -103,6 +120,7 @@ class TrackingTaskComponent extends Component {
                             index={ index }
                             frame={ el }
                             key={ el }
+                            errors={ trackingDataErrors.frames[index] }
                         />
                     ) }
                     <div className="add-new-point-button">
@@ -123,6 +141,7 @@ class TrackingTaskComponent extends Component {
 
 const mapStateToProps = ({ tasksReducer }) => ({
     trackingData: tasksReducer.trackingData,
+    trackingDataErrors: tasksReducer.trackingDataErrors,
 });
 
 const mapDispatchToProps = {

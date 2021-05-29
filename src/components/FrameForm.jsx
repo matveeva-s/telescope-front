@@ -16,6 +16,7 @@ import {
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import format from "date-fns/format";
+import { emptyValueErrorText } from "../constants/appConstants";
 import '../styles/newTask.css';
 
 
@@ -36,10 +37,11 @@ export class FrameForm extends Component {
         deleteFrame: PropTypes.func.isRequired,
         index: PropTypes.number.isRequired,
         frame: PropTypes.shape().isRequired,
+        errors: PropTypes.shape().isRequired,
     };
 
     render() {
-        const { index, frame } = this.props;
+        const { index, frame, errors } = this.props;
         const { exposure, date, time } = frame;
         return (
             <div className="frame-form-container">
@@ -52,6 +54,8 @@ export class FrameForm extends Component {
                             value={ exposure || null }
                             onChange={ event => this.props.changeFrame(index, 'exposure', parseInt(event.target.value)) }
                             type="number"
+                            error={ errors && errors.exposure }
+                            helperText={ errors && errors.exposure ? emptyValueErrorText : null }
                         />
                     </FormControl>
                 </div>
@@ -72,13 +76,15 @@ export class FrameForm extends Component {
                             autoOk
                             disablePast
                             className="track-date-field"
+                            error={ errors && errors.date }
+                            helperText={ errors && errors.date ? emptyValueErrorText : null }
                         />
                     </MuiPickersUtilsProvider>
                 </div>
                 <div className="frame-field">
                     <MuiPickersUtilsProvider utils={ RuLocalizedUtils } locale={ ruLocale }>
                         <KeyboardTimePicker
-                            ampm={false}
+                            ampm={ false }
                             openTo="hours"
                             inputVariant="outlined"
                             views={["hours", "minutes", "seconds"]}
@@ -89,6 +95,8 @@ export class FrameForm extends Component {
                             onChange={ value => this.props.changeFrame(index, 'time', value) }
                             keyboardIcon={ <AccessTimeIcon/> }
                             className="track-time-field"
+                            error={ errors && errors.time }
+                            helperText={ errors && errors.time ? emptyValueErrorText : null }
                         />
                     </MuiPickersUtilsProvider>
                 </div>

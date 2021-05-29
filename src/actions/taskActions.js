@@ -130,6 +130,13 @@ export const changeTrackingTaskFrameFormField = (index, fieldName, value) => dis
   })
 };
 
+export const raiseErrorInTrackingTask = (errors) => dispatch => {
+  return dispatch({
+      type: TASK_ACTIONS.RAISE_ERRORS_IN_TRACKING_TASK,
+      payload: { errors },
+  })
+};
+
 // tle task actions
 
 export const changeTLETaskFormField = (fieldName, value) => dispatch => {

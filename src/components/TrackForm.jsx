@@ -18,6 +18,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import format from "date-fns/format";
 
 import { deleteTrackingTaskTrack, changeTrackingTaskTrackFormField } from "../actions/taskActions";
+import { emptyValueErrorText} from "../constants/appConstants";
 import '../styles/newTask.css';
 
 
@@ -38,10 +39,11 @@ class TrackFormComponent extends Component {
         deleteTrackingTaskTrack: PropTypes.func.isRequired,
         index: PropTypes.number.isRequired,
         track: PropTypes.shape().isRequired,
+        errors: PropTypes.shape().isRequired,
     };
 
     render() {
-        const { index, track } = this.props;
+        const { index, track, errors } = this.props;
         const { alpha, beta, date, time } = track;
         return (
             <div className="track-form-container">
@@ -54,6 +56,8 @@ class TrackFormComponent extends Component {
                             value={ alpha || null }
                             onChange={ event => this.props.changeTrackingTaskTrackFormField(index, 'alpha', parseFloat(event.target.value)) }
                             type="number"
+                            error={ errors && errors.alpha }
+                            helperText={ errors && errors.alpha ? emptyValueErrorText : null }
                         />
                     </FormControl>
                 </div>
@@ -66,6 +70,8 @@ class TrackFormComponent extends Component {
                             value={ beta || null }
                             onChange={ event => this.props.changeTrackingTaskTrackFormField(index, 'beta', parseFloat(event.target.value)) }
                             type="number"
+                            error={ errors && errors.beta }
+                            helperText={ errors && errors.beta ? emptyValueErrorText : null }
                         />
                     </FormControl>
                 </div>
@@ -85,6 +91,8 @@ class TrackFormComponent extends Component {
                             autoOk
                             disablePast
                             className="track-date-field"
+                            error={ errors && errors.date }
+                            helperText={ errors && errors.date ? emptyValueErrorText : null }
                         />
                     </MuiPickersUtilsProvider>
                 </div>
@@ -102,6 +110,8 @@ class TrackFormComponent extends Component {
                             onChange={ value => this.props.changeTrackingTaskTrackFormField(index, 'time', value) }
                             keyboardIcon={ <AccessTimeIcon/> }
                             className="track-time-field"
+                            error={ errors && errors.time }
+                            helperText={ errors && errors.time ? emptyValueErrorText : null }
                         />
                     </MuiPickersUtilsProvider>
                 </div>
