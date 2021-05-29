@@ -1,0 +1,46 @@
+/* styles for login page */
+.logo-big {
+    margin: 10px 0 0 10px;
+    width: 50px;
+    height: 50px;
+    background: url('../images/logo-dark.png');
+    background-size: contain;
+}
+
+.title-text-big {
+    color: #12143D;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 60px;
+    text-align: center;
+}
+
+.title-big {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0 30px 0;
+}
+
+/* styles for header */
+
+.logo-header {
+    margin: 4px 0 0 10px;
+    width: 40px;
+    height: 40px;
+    background: url('../images/logo-light.png');
+    background-size: contain;
+}
+
+.title-text-header {
+    color: white;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    font-size: 40px;
+    text-align: center;
+}
+
+.title-header {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0 15px 0;
+}
