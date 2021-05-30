@@ -16,6 +16,7 @@ import { tasksTypes } from '../constants/appConstants';
 import { PointsTask } from "./PointsTask";
 import { TrackingTask } from "./TrackingTask";
 import { TLETask } from "./TLETask";
+import { Notification } from "./Notification";
 import {
     getTelescopesWithBalances,
     changeFormField,
@@ -169,6 +170,7 @@ class NewTaskComponent extends Component {
                                   { taskTypeError ? <FormHelperText>{ emptyValueErrorText }</FormHelperText> : null }
                                   </FormControl>
                             </div>
+                            <Notification/>
                             { taskType === 1 && <PointsTask/> }
                             { taskType === 2 && <TrackingTask/> }
                             { taskType === 3 && <TLETask/> }

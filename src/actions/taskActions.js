@@ -20,6 +20,13 @@ export const getTelescopesWithBalances = (options = {}) => dispatch => {
   })
 };
 
+
+export const closeNotification = () => dispatch => {
+    return dispatch({
+      type: TASK_ACTIONS.CLOSE_NOTIFICATION,
+  })
+};
+
 // for main task form
 export const changeFormField = (fieldName, value) => dispatch => {
   return dispatch({

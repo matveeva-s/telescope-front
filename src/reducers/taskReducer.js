@@ -36,7 +36,10 @@ const initialState = {
         line1: false,
         line2: false,
         frames: [],
-    }
+    },
+    messageToShow: '',
+    messageLevel: '',
+    messageIsOpen: false,
 };
 
 export const tasksReducer = (state = initialState, action) => {
@@ -130,6 +133,27 @@ export const tasksReducer = (state = initialState, action) => {
             return {
                 ...state,
                 pointsErrors: errors,
+            }
+        }
+
+        case TASK_ACTIONS.SAVE_POINT_TASK_FINISH: {
+            const data = action.payload;
+            const message = data.msg;
+            const level = data.status === 201 ?  'success' : 'error';
+            return {
+                ...state,
+                messageToShow: message,
+                messageLevel: level,
+                messageIsOpen: true,
+            }
+        }
+
+        case TASK_ACTIONS.CLOSE_NOTIFICATION: {
+            return {
+                ...state,
+                messageToShow: '',
+                messageLevel: '',
+                messageIsOpen: false,
             }
         }
 
