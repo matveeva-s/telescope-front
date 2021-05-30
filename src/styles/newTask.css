@@ -186,3 +186,24 @@
     font-size: 10px;
     width: 195px;
 }
+
+.tle-task-main-fields-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-bottom: 6vh;
+}
+
+.tle-task-satellite-field {
+    margin-top: 3vh;
+    margin-bottom: 1vh;
+}
+
+.tle-task-line-field {
+    margin-top: 3vh;
+    margin-bottom: 1vh;
+}
+
+.tle-task-line {
+    width: 610px;
+}

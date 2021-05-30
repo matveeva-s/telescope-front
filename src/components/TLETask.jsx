@@ -8,6 +8,7 @@ import '../styles/newTask.css';
 import TextField from "@material-ui/core/TextField/TextField";
 import FormControl from "@material-ui/core/FormControl";
 import { FrameForm } from "./FrameForm";
+import { emptyValueErrorText } from '../constants/appConstants';
 import {
     changeTLETaskFormField,
     addTLETaskFrame,
@@ -18,6 +19,7 @@ import {
 export class TLETaskComponent extends Component {
     static propTypes = {
         tleData: PropTypes.shape().isRequired,
+        tleDataErrors: PropTypes.shape().isRequired,
         addTLETaskFrame: PropTypes.func.isRequired,
         changeTLETaskFormField: PropTypes.func.isRequired,
         deleteTLETaskFrame: PropTypes.func.isRequired,
@@ -29,12 +31,12 @@ export class TLETaskComponent extends Component {
     }
 
     render() {
-        const { tleData } = this.props;
+        const { tleData, tleDataErrors } = this.props;
         return (
-            <div className="tracking-task-form-container">
+            <div className="tle-task-form-container">
                 <div className="subtitle-text">TLE данные спутника</div>
-                <div className="tracking-task-main-fields-container">
-                    <div className="tracking-task-satellite-field">
+                <div className="tle-task-main-fields-container">
+                    <div className="tle-task-satellite-field">
                         <FormControl variant="outlined">
                             <TextField
                                 variant="outlined"
@@ -43,30 +45,36 @@ export class TLETaskComponent extends Component {
                                 value={ tleData && tleData.satellite || null }
                                 onChange={ event => this.props.changeTLETaskFormField('satellite', parseInt(event.target.value)) }
                                 type="number"
+                                error={ tleDataErrors && tleDataErrors.satellite }
+                                helperText={ tleDataErrors && tleDataErrors.satellite ? emptyValueErrorText : null }
                             />
                         </FormControl>
                     </div>
-                    <div className="tracking-task-mag-field">
+                    <div className="tle-task-line-field">
                         <FormControl variant="outlined">
                             <TextField
                                 variant="outlined"
                                 placeholder="Линия 1"
                                 label="Линия 1"
                                 value={ tleData && tleData.line1 || null }
-                                onChange={ event => this.props.changeTLETaskFormField('line1', parseFloat(event.target.value)) }
-                                type="number"
+                                className="tle-task-line"
+                                onChange={ event => this.props.changeTLETaskFormField('line1', event.target.value) }
+                                error={ tleDataErrors && tleDataErrors.line1 }
+                                helperText={ tleDataErrors && tleDataErrors.line1 ? emptyValueErrorText : null }
                             />
                         </FormControl>
                     </div>
-                    <div className="tracking-task-count-field">
+                    <div className="tle-task-line-field">
                         <FormControl variant="outlined">
                             <TextField
                                 variant="outlined"
                                 placeholder="Линия 2"
                                 label="Линия 2"
                                 value={ tleData && tleData.line2 || null }
-                                onChange={ event => this.props.changeTLETaskFormField('line2', parseInt(event.target.value)) }
-                                type="number"
+                                className="tle-task-line"
+                                onChange={ event => this.props.changeTLETaskFormField('line2', event.target.value) }
+                                error={ tleDataErrors && tleDataErrors.line2 }
+                                helperText={ tleDataErrors && tleDataErrors.line2 ? emptyValueErrorText : null }
                             />
                         </FormControl>
                     </div>
@@ -80,6 +88,7 @@ export class TLETaskComponent extends Component {
                             index={ index }
                             frame={ el }
                             key={ el }
+                            errors={ tleDataErrors.frames[index] }
                         />
                     ) }
                     <div className="add-new-point-button">
@@ -100,6 +109,7 @@ export class TLETaskComponent extends Component {
 
 const mapStateToProps = ({ tasksReducer }) => ({
     tleData: tasksReducer.tleData,
+    tleDataErrors: tasksReducer.tleDataErrors,
 });
 
 const mapDispatchToProps = {

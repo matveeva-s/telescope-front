@@ -48,7 +48,26 @@ export const validateTrackingData = (trackingData) => {
         isError = isError || !exposure || !date || !time;
         trackingError.frames.push(error);
     });
-
-
     return { isError, errors: trackingError };
+};
+
+
+export const validateTleData = (tleData) => {
+    let tleError = {
+        satellite: !tleData.satellite,
+        line1: !tleData.line1,
+        line2: !tleData.line2,
+        frames: [],
+    };
+    let isError = tleError.satellite || tleError.line1 || tleError.line2;
+    tleData.frames.map(({ exposure, date, time }) => {
+        const error = {
+            exposure: !exposure,
+            date: !date,
+            time: !time,
+        };
+        isError = isError || !exposure || !date || !time;
+        tleError.frames.push(error);
+    });
+    return { isError, errors: tleError };
 };

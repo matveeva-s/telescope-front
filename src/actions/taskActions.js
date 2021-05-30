@@ -166,3 +166,10 @@ export const deleteTLETaskFrame = (index) => dispatch => {
       payload: { index },
   })
 };
+
+export const raiseErrorsInTleTask = (errors) => dispatch => {
+  return dispatch({
+      type: TASK_ACTIONS.RAISE_ERRORS_IN_TLE_TASK,
+      payload: { errors },
+  })
+};

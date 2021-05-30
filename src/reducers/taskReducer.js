@@ -31,6 +31,12 @@ const initialState = {
         track: [],
         frames: [],
     },
+    tleDataErrors: {
+        satellite: false,
+        line1: false,
+        line2: false,
+        frames: [],
+    }
 };
 
 export const tasksReducer = (state = initialState, action) => {
@@ -277,13 +283,15 @@ export const tasksReducer = (state = initialState, action) => {
 
         case TASK_ACTIONS.CHANGE_TLE_TASK_FORM_FIELD: {
             const { fieldName, value } = action.payload;
-            const tleData = Object.assign({}, state.tleData);
-            tleData[fieldName] = value;
             return {
                 ...state,
                 tleData: {
                     ...state.tleData,
                     [fieldName]: value,
+                },
+                tleDataErrors: {
+                    ...state.tleDataErrors,
+                    [fieldName]: false,
                 }
             }
         }
@@ -291,11 +299,23 @@ export const tasksReducer = (state = initialState, action) => {
         case TASK_ACTIONS.CHANGE_TLE_TASK_FRAME_FORM_FIELD: {
             const { index, fieldName, value } = action.payload;
             const tleData = Object.assign({}, state.tleData);
+            const tleDataErrors = Object.assign({}, state.tleDataErrors);
             const frame = tleData.frames[index];
+            const frameError = tleDataErrors.frames[index];
             frame[fieldName] = value;
+            frameError[fieldName] = false;
             return {
                 ...state,
-                tleData
+                tleData,
+                tleDataErrors,
+            }
+        }
+
+        case TASK_ACTIONS.RAISE_ERRORS_IN_TLE_TASK: {
+            const { errors } = action.payload;
+            return {
+                ...state,
+                tleDataErrors: errors,
             }
         }
 
