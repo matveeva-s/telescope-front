@@ -77,7 +77,7 @@ class NewTaskComponent extends Component {
         if (!taskType || !telescope) return null;
         if (taskType === 1) sumTime = parseFloat(countPointsTaskTiming(points));
         if (telescopes && telescopes.length) {
-            balance = parseInt(telescopes.filter(el => el.value === telescope)[0].balance);
+            balance = parseInt(telescopes.filter(el => parseInt(el.value) === telescope)[0].balance);
         }
         const successText = `Предполагаемое общее время наблюдения ${ sumTime } минут, с баланса спишется ${ Math.ceil(sumTime) } минут`;
         const errorText = `Предполагаемое общее время наблюдения ${ sumTime } минут, тебе не хватает наблюдательного времени на этом телескопе`;
@@ -85,7 +85,6 @@ class NewTaskComponent extends Component {
         if (balance < sumTime) {
             return (
                 <div className="timing-error-text-container">{ errorText }</div>
-
             );
         }
         return (
