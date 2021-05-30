@@ -8,7 +8,7 @@ import '../styles/newTask.css';
 import TextField from "@material-ui/core/TextField/TextField";
 import FormControl from "@material-ui/core/FormControl";
 import { FrameForm } from "./FrameForm";
-import { emptyValueErrorText } from '../constants/appConstants';
+import { emptyValueErrorText, wrongTLELineText } from '../constants/appConstants';
 import {
     changeTLETaskFormField,
     addTLETaskFrame,
@@ -32,6 +32,19 @@ export class TLETaskComponent extends Component {
 
     render() {
         const { tleData, tleDataErrors } = this.props;
+        let line1ErrorText = null;
+        let line2ErrorText = null;
+        if (tleDataErrors && tleDataErrors.line1 && tleData.line1) {
+            line1ErrorText = wrongTLELineText;
+        } else if (tleDataErrors && tleDataErrors.line1 && !tleData.line1) {
+            line1ErrorText = emptyValueErrorText;
+        }
+        if (tleDataErrors && tleDataErrors.line2 && tleData.line2) {
+            line2ErrorText = wrongTLELineText;
+        } else if (tleDataErrors && tleDataErrors.line2 && !tleData.line2) {
+            line2ErrorText = emptyValueErrorText;
+        }
+
         return (
             <div className="tle-task-form-container">
                 <div className="subtitle-text">TLE данные спутника</div>
@@ -60,7 +73,7 @@ export class TLETaskComponent extends Component {
                                 className="tle-task-line"
                                 onChange={ event => this.props.changeTLETaskFormField('line1', event.target.value) }
                                 error={ tleDataErrors && tleDataErrors.line1 }
-                                helperText={ tleDataErrors && tleDataErrors.line1 ? emptyValueErrorText : null }
+                                helperText={ line1ErrorText }
                             />
                         </FormControl>
                     </div>
@@ -74,7 +87,7 @@ export class TLETaskComponent extends Component {
                                 className="tle-task-line"
                                 onChange={ event => this.props.changeTLETaskFormField('line2', event.target.value) }
                                 error={ tleDataErrors && tleDataErrors.line2 }
-                                helperText={ tleDataErrors && tleDataErrors.line2 ? emptyValueErrorText : null }
+                                helperText={ line2ErrorText }
                             />
                         </FormControl>
                     </div>

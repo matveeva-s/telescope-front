@@ -1,3 +1,5 @@
+import validators from 'tle-validator';
+
 export const validatePointsTask = points => {
     let errors = [];
     points.map(({ satellite, mag, alpha, beta, exposure, systemType, date, time }, index) => {
@@ -59,6 +61,8 @@ export const validateTleData = (tleData) => {
         line2: !tleData.line2,
         frames: [],
     };
+    if (tleData.line1) tleError.line1 = !validators.validateLineOne(tleData.line1);
+    if (tleData.line2) tleError.line2 = !validators.validateLineTwo(tleData.line2);
     let isError = tleError.satellite || tleError.line1 || tleError.line2;
     tleData.frames.map(({ exposure, date, time }) => {
         const error = {

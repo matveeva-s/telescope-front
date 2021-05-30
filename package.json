@@ -23,6 +23,7 @@
     "react-scripts": "4.0.1",
     "redux-api-middleware": "^3.2.1",
     "redux-thunk": "^2.3.0",
+    "tle-validator": "0.0.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

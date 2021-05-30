@@ -17,6 +17,7 @@ export const coordinateSystemTypes = [
 ];
 
 export const emptyValueErrorText = 'Это поле не должно быть пустым';
+export const wrongTLELineText = 'Проверь правильность введенных данных (эта линия введена неверно)';
 
 export const telescopeTurnTime = 2*60;
 
