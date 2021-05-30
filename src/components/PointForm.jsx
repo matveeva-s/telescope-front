@@ -43,7 +43,11 @@ class PointFormComponent extends Component {
         deletePoint: PropTypes.func.isRequired,
         index: PropTypes.number.isRequired,
         point: PropTypes.shape().isRequired,
-        errors: PropTypes.shape().isRequired,
+        errors: PropTypes.shape(),
+    };
+
+    static defaultProps = {
+        errors: {},
     };
 
     render() {
@@ -108,7 +112,7 @@ class PointFormComponent extends Component {
                         onChange={ event => this.props.changePointFormField(index, 'systemType', event.target.value) }
                         error={ errors && errors.systemType }
                     >
-                        { coordinateSystemTypes.map(el => <MenuItem value={ el.value }>{ el.label }</MenuItem>) }
+                        { coordinateSystemTypes.map(el => <MenuItem value={ el.value } key={ el.value }>{ el.label }</MenuItem>) }
                     </Select>
                     { errors && errors.systemType ? <FormHelperText>{ emptyValueErrorText }</FormHelperText> : null }
                 </FormControl>

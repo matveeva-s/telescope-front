@@ -28,7 +28,7 @@ class PointsTaskComponent extends Component {
                     <PointForm
                         index={ index }
                         point={ el }
-                        key={ el }
+                        key={ el.satellite }
                         errors={ pointsErrors[index] }
                     />
                     ) }

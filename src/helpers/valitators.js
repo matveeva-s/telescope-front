@@ -2,23 +2,23 @@ import validators from 'tle-validator';
 
 export const validatePointsTask = points => {
     let errors = [];
+    let isError = false;
     points.map(({ satellite, mag, alpha, beta, exposure, systemType, date, time }, index) => {
-        let error = {};
-        if (!satellite) error.satellite = true;
-        if (!mag) error.mag = true;
-        if (!alpha) error.alpha = true;
-        if (!beta) error.beta = true;
-        if (!exposure) error.exposure = true;
-        if (!systemType) error.systemType = true;
-        if (!date) error.date = true;
-        if (!time) error.time = true;
+        let error = {
+            satellite: !satellite,
+            mag: !mag,
+            alpha: !alpha,
+            beta: !beta,
+            exposure: !exposure,
+            systemType: !systemType,
+            date: !date,
+            time: !time,
+        };
+        isError = isError || !(satellite && mag && alpha && beta && systemType && exposure && date && time);
         errors.push(error);
+        return index;
     });
-    let wrongFieldsCount = 0;
-    errors.map((el) => {
-        if (Object.keys(el).length > 0) wrongFieldsCount = wrongFieldsCount + 1;
-    });
-    return wrongFieldsCount > 0 ?  errors : null;
+    return { isError, errors };
 };
 
 
@@ -40,6 +40,7 @@ export const validateTrackingData = (trackingData) => {
         };
         isError = isError || !alpha || !beta || !date || !time;
         trackingError.track.push(error);
+        return alpha;
     });
     trackingData.frames.map(({ exposure, date, time }) => {
         const error = {
@@ -49,6 +50,7 @@ export const validateTrackingData = (trackingData) => {
         };
         isError = isError || !exposure || !date || !time;
         trackingError.frames.push(error);
+        return exposure;
     });
     return { isError, errors: trackingError };
 };
@@ -72,6 +74,7 @@ export const validateTleData = (tleData) => {
         };
         isError = isError || !exposure || !date || !time;
         tleError.frames.push(error);
+        return exposure;
     });
     return { isError, errors: tleError };
 };

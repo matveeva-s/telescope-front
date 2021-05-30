@@ -43,9 +43,12 @@ class NewTaskComponent extends Component {
         raiseErrorsInTleTask: PropTypes.func.isRequired,
         changeFormField: PropTypes.func.isRequired,
         savePointTask: PropTypes.func.isRequired,
-        telescopes: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-        telescope: PropTypes.number.isRequired,
-        taskType: PropTypes.number.isRequired,
+        telescopes: PropTypes.arrayOf(PropTypes.shape({
+            value: PropTypes.string,
+            label: PropTypes.string,
+        })),
+        telescope: PropTypes.number,
+        taskType: PropTypes.number,
         points: PropTypes.arrayOf(PropTypes.shape()).isRequired,
         trackingData: PropTypes.shape().isRequired,
         tleData: PropTypes.shape().isRequired,
@@ -53,9 +56,16 @@ class NewTaskComponent extends Component {
         taskTypeError: PropTypes.bool.isRequired,
     };
 
+    static defaultProps = {
+        telescope: null,
+        taskType: null,
+        telescopes: {},
+    };
+
     componentDidMount() {
         this.props.getTelescopesWithBalances();
     }
+
     state = {
         limitExceeded: false,
     };
@@ -64,14 +74,14 @@ class NewTaskComponent extends Component {
         const { taskType, points, telescope, telescopes } = this.props;
         let sumTime = 0;
         let balance = 0;
-        if (!taskType || !telescope) return;
+        if (!taskType || !telescope) return null;
         if (taskType === 1) sumTime = parseFloat(countPointsTaskTiming(points));
         if (telescopes && telescopes.length) {
-            balance = parseInt(telescopes.filter(el => el.value == telescope)[0].balance);
+            balance = parseInt(telescopes.filter(el => el.value === telescope)[0].balance);
         }
         const successText = `Предполагаемое общее время наблюдения ${ sumTime } минут, с баланса спишется ${ Math.ceil(sumTime) } минут`;
         const errorText = `Предполагаемое общее время наблюдения ${ sumTime } минут, тебе не хватает наблюдательного времени на этом телескопе`;
-        if (sumTime < 1) return;
+        if (sumTime < 1) return null;
         if (balance < sumTime) {
             return (
                 <div className="timing-error-text-container">{ errorText }</div>
@@ -89,12 +99,12 @@ class NewTaskComponent extends Component {
         if (!taskType) this.props.raiseErrorInMainTaskPart('taskType');
         if (this.props.taskType === 1) {
             const { points } = this.props;
-            const pointsErrors = validatePointsTask(points);
-            if (!pointsErrors) {
+            const { isError, errors } = validatePointsTask(points);
+            if (!isError) {
                 const preparedPoints = preparePoints(points);
                 this.props.savePointTask({ telescope, points: preparedPoints });
             } else {
-                this.props.raiseErrorInPointsTask(pointsErrors);
+                this.props.raiseErrorInPointsTask(errors);
                 return;
             }
         }
@@ -140,7 +150,7 @@ class NewTaskComponent extends Component {
                                           onChange={ event => this.props.changeFormField('telescope', parseInt(event.target.value)) }
                                           error={ telescopeError }
                                         >
-                                            { telescopes.map(el => <MenuItem value={ el.value }>{ el.label }</MenuItem>) }
+                                            { telescopes.map(el => <MenuItem value={ el.value } key={ el.value }>{ el.label }</MenuItem>) }
                                         </Select>
                                   { telescopeError ? <FormHelperText>{ emptyValueErrorText }</FormHelperText> : null }
                                   </FormControl>
@@ -155,7 +165,7 @@ class NewTaskComponent extends Component {
                                           onChange={ event => this.props.changeFormField('taskType', event.target.value) }
                                           error={ taskTypeError }
                                         >
-                                            { tasksTypes.map(el => <MenuItem value={ el.value }>{ el.label }</MenuItem>) }
+                                            { tasksTypes.map(el => <MenuItem value={ el.value } key={ el.value }>{ el.label }</MenuItem>) }
                                         </Select>
                                   { taskTypeError ? <FormHelperText>{ emptyValueErrorText }</FormHelperText> : null }
                                   </FormControl>

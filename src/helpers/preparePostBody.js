@@ -13,6 +13,7 @@ export const preparePoints = (points) => {
         const dt = new Date(year, month, day, hours, minutes, seconds);
         const {date, time, satellite, systemType, ...elWithoutDateTime} = el;
         newPoints.push({dt, cs_type: el.systemType, satellite_id: el.satellite, ...elWithoutDateTime});
+        return el;
     });
     return newPoints;
 };

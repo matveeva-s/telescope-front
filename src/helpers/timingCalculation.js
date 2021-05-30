@@ -9,6 +9,7 @@ export const countPointsTaskTiming = (points) => {
         if (el && el.exposure) {
             sum = sum + parseInt(el.exposure) + telescopeTurnTime;
         }
+        return el;
     });
     return (sum/60).toFixed(2);
 };

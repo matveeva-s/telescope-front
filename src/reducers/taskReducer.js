@@ -127,24 +127,9 @@ export const tasksReducer = (state = initialState, action) => {
 
         case TASK_ACTIONS.RAISE_ERRORS_IN_POINTS_TASK: {
             const { errors } = action.payload;
-            const pointsErrors = [];
-            errors.map(el => {
-                const error = {
-                    satellite: false,
-                    mag: false,
-                    alpha: false,
-                    beta: false,
-                    exposure: false,
-                    systemType: false,
-                    date: false,
-                    time: false,
-                };
-                Object.keys(el).map(fieldName => error[fieldName] = true);
-                pointsErrors.push(error);
-            });
             return {
                 ...state,
-                pointsErrors,
+                pointsErrors: errors,
             }
         }
 

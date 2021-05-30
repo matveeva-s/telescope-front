@@ -44,6 +44,14 @@ export class TLETaskComponent extends Component {
         } else if (tleDataErrors && tleDataErrors.line2 && !tleData.line2) {
             line2ErrorText = emptyValueErrorText;
         }
+        let satellite = null;
+        let line1 = null;
+        let line2 = null;
+        if (tleData) {
+            satellite = tleData.satellite;
+            line1 = tleData.line1;
+            line2 = tleData.line2;
+        }
 
         return (
             <div className="tle-task-form-container">
@@ -55,7 +63,7 @@ export class TLETaskComponent extends Component {
                                 variant="outlined"
                                 placeholder="ID спутника"
                                 label="ID спутника"
-                                value={ tleData && tleData.satellite || null }
+                                value={ satellite }
                                 onChange={ event => this.props.changeTLETaskFormField('satellite', parseInt(event.target.value)) }
                                 type="number"
                                 error={ tleDataErrors && tleDataErrors.satellite }
@@ -69,7 +77,7 @@ export class TLETaskComponent extends Component {
                                 variant="outlined"
                                 placeholder="Линия 1"
                                 label="Линия 1"
-                                value={ tleData && tleData.line1 || null }
+                                value={ line1 }
                                 className="tle-task-line"
                                 onChange={ event => this.props.changeTLETaskFormField('line1', event.target.value) }
                                 error={ tleDataErrors && tleDataErrors.line1 }
@@ -83,7 +91,7 @@ export class TLETaskComponent extends Component {
                                 variant="outlined"
                                 placeholder="Линия 2"
                                 label="Линия 2"
-                                value={ tleData && tleData.line2 || null }
+                                value={ line2 }
                                 className="tle-task-line"
                                 onChange={ event => this.props.changeTLETaskFormField('line2', event.target.value) }
                                 error={ tleDataErrors && tleDataErrors.line2 }
