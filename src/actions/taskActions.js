@@ -197,3 +197,20 @@ export const raiseErrorsInTleTask = (errors) => dispatch => {
       payload: { errors },
   })
 };
+
+export const saveTleTask = (data) => dispatch => {
+  const token = localStorage.getItem('access_token');
+  return dispatch({
+    [RSAA]: {
+      endpoint: baseApiURL + tasksApiUrls.saveTleTask,
+      headers: credentialsHeaders(token),
+      method: 'POST',
+      body: JSON.stringify(data),
+      types: [
+          TASK_ACTIONS.SAVE_TLE_TASK_START,
+          TASK_ACTIONS.SAVE_TLE_TASK_FINISH,
+          TASK_ACTIONS.SAVE_TLE_TASK_FAIL,
+      ]
+    }
+  })
+};

@@ -25,9 +25,10 @@ import {
     raiseErrorInTrackingTask,
     raiseErrorsInTleTask,
     savePointTask,
+    saveTleTask,
     saveTrackingTask,
 } from "../actions/taskActions";
-import { preparePoints, prepareTrackingTask, prepareFrames, prepareTrack } from "../helpers/preparePostBody";
+import { preparePoints, prepareTrackingTask, prepareFrames, prepareTrack, prepareTleTask } from "../helpers/preparePostBody";
 import { countPointsTaskTiming, countTrackingTaskTiming, countTleTaskTiming } from "../helpers/timingCalculation";
 import { validatePointsTask, validateTrackingData, validateTleData } from "../helpers/valitators";
 import { emptyValueErrorText } from '../constants/appConstants';
@@ -46,6 +47,7 @@ class NewTaskComponent extends Component {
         changeFormField: PropTypes.func.isRequired,
         savePointTask: PropTypes.func.isRequired,
         saveTrackingTask: PropTypes.func.isRequired,
+        saveTleTask: PropTypes.func.isRequired,
         telescopes: PropTypes.arrayOf(PropTypes.shape({
             value: PropTypes.string,
             label: PropTypes.string,
@@ -129,8 +131,9 @@ class NewTaskComponent extends Component {
             const { tleData } = this.props;
             const { isError, errors } = validateTleData(tleData);
             if (!isError) {
-                // const preparedPoints = preparePoints(trackingData);
-                // this.props.savePointTask({ telescope, points: preparedPoints });
+                const frames = prepareFrames(tleData.frames);
+                const preparedData = prepareTleTask(tleData);
+                this.props.saveTleTask({ telescope, tle_data: preparedData, frames });
             } else {
                 this.props.raiseErrorsInTleTask(errors);
                 return;
@@ -220,6 +223,7 @@ const mapDispatchToProps = {
     changeFormField,
     savePointTask,
     saveTrackingTask,
+    saveTleTask,
     raiseErrorInMainTaskPart,
     raiseErrorInPointsTask,
     raiseErrorInTrackingTask,

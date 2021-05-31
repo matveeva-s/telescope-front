@@ -52,3 +52,13 @@ export const prepareFrames = (frames) => {
     }));
     return newFrames;
 };
+
+
+export const prepareTleTask = (tleData) => {
+    let newTrackingData = {
+        satellite_id: tleData.satellite,
+        line1: tleData.line1,
+        line2: tleData.line2,
+    };
+    return newTrackingData;
+};

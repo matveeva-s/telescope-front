@@ -139,7 +139,7 @@ export const tasksReducer = (state = initialState, action) => {
         case TASK_ACTIONS.SAVE_POINT_TASK_FINISH: {
             const data = action.payload;
             const message = data.msg;
-            const level = data.status === 201 ?  'success' : 'error';
+            const level = data.status === 'ok' ?  'success' : 'error';
             return {
                 ...state,
                 messageToShow: message,
@@ -279,7 +279,7 @@ export const tasksReducer = (state = initialState, action) => {
         case TASK_ACTIONS.SAVE_TRACKING_TASK_FINISH: {
             const data = action.payload;
             const message = data.msg;
-            const level = data.status === 201 ?  'success' : 'error';
+            const level = data.status === 'ok' ?  'success' : 'error';
             return {
                 ...state,
                 messageToShow: message,
@@ -355,6 +355,18 @@ export const tasksReducer = (state = initialState, action) => {
             return {
                 ...state,
                 tleDataErrors: errors,
+            }
+        }
+
+         case TASK_ACTIONS.SAVE_TLE_TASK_FINISH: {
+            const data = action.payload;
+            const message = data.msg;
+            const level = data.status === 'ok' ?  'success' : 'error';
+            return {
+                ...state,
+                messageToShow: message,
+                messageLevel: level,
+                messageIsOpen: true,
             }
         }
 
