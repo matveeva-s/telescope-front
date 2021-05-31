@@ -35,12 +35,6 @@ class App extends Component {
         return (
             <div className="site">
                 <Header />
-                <nav>
-                    <a href={"/"}>Home</a>
-                    <a href={"/login/"}>Login</a>
-                    <a href={"/hello/"}>Hello</a>
-                    <button onClick={this.handleLogout}>Logout</button>
-                </nav>
                 <main>
                     <BrowserRouter>
                         <Switch>

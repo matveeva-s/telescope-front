@@ -15,7 +15,7 @@ ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
             { isAuthentificated ? <App/> : <Login/> }
-        </Provider>,
+        </Provider>
     </React.StrictMode>,
     document.getElementById('root')
 );

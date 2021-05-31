@@ -11,3 +11,23 @@
     justify-content: center;
     align-items: center;
 }
+
+.expand-icon {
+    color: #ffffff;
+}
+
+.menu-link-text {
+    text-decoration: none;
+    margin-left: 30px;
+    color: white;
+}
+
+.menu-links-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.profile-link {
+    color: black;
+    text-decoration: none;
+}

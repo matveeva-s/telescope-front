@@ -24,6 +24,7 @@ export const userReducer = (state = initialState, action) => {
                 ...state,
                 firstName: data.firstName,
                 lastName: data.lastName,
+                avatar: data.avatar,
                 status: 'succeeded',
             };
         }
