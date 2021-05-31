@@ -144,6 +144,23 @@ export const raiseErrorInTrackingTask = (errors) => dispatch => {
   })
 };
 
+export const saveTrackingTask = (data) => dispatch => {
+  const token = localStorage.getItem('access_token');
+  return dispatch({
+    [RSAA]: {
+      endpoint: baseApiURL + tasksApiUrls.saveTrackingTask,
+      headers: credentialsHeaders(token),
+      method: 'POST',
+      body: JSON.stringify(data),
+      types: [
+          TASK_ACTIONS.SAVE_TRACKING_TASK_START,
+          TASK_ACTIONS.SAVE_TRACKING_TASK_FINISH,
+          TASK_ACTIONS.SAVE_TRACKING_TASK_FAIL,
+      ]
+    }
+  })
+};
+
 // tle task actions
 
 export const changeTLETaskFormField = (fieldName, value) => dispatch => {

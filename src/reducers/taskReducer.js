@@ -190,10 +190,13 @@ export const tasksReducer = (state = initialState, action) => {
                 time: null,
             };
             const newTrackingData = Object.assign({}, state.trackingData);
+            const newTrackingDataErrors = Object.assign({}, state.trackingDataErrors);
             newTrackingData.track.push(emptyTrack);
+            newTrackingDataErrors.track.push(Object.assign({}, emptyTrack));
             return {
                 ...state,
                 trackingData: newTrackingData,
+                trackingDataErrors: newTrackingDataErrors,
             }
         }
 
@@ -204,30 +207,39 @@ export const tasksReducer = (state = initialState, action) => {
                 time: null,
             };
             const newTrackingData = Object.assign({}, state.trackingData);
+            const newTrackingDataErrors = Object.assign({}, state.trackingDataErrors);
             newTrackingData.frames.push(emptyFrame);
+            newTrackingDataErrors.frames.push(Object.assign({}, emptyFrame));
             return {
                 ...state,
                 trackingData: newTrackingData,
+                trackingDataErrors: newTrackingDataErrors,
             }
         }
 
         case TASK_ACTIONS.DELETE_TRACKING_TASK_TRACK: {
             const { index } = action.payload;
             let newTrackingData = Object.assign({}, state.trackingData);
+            let newTrackingDataErrors = Object.assign({}, state.trackingDataErrors);
             newTrackingData.track = newTrackingData.track.filter( (el, i) => i!== index);
+            newTrackingDataErrors.track = newTrackingDataErrors.track.filter( (el, i) => i!== index);
             return {
                 ...state,
                 trackingData: newTrackingData,
+                trackingDataErrors: newTrackingDataErrors,
             }
         }
 
         case TASK_ACTIONS.DELETE_TRACKING_TASK_FRAME: {
             const { index } = action.payload;
             let newTrackingData = Object.assign({}, state.trackingData);
+            let newTrackingDataErrors = Object.assign({}, state.trackingDataErrors);
             newTrackingData.frames = newTrackingData.frames.filter( (el, i) => i!== index);
+            newTrackingDataErrors.frames = newTrackingDataErrors.frames.filter( (el, i) => i!== index);
             return {
                 ...state,
                 trackingData: newTrackingData,
+                trackingDataErrors: newTrackingDataErrors,
             }
         }
 
@@ -264,6 +276,18 @@ export const tasksReducer = (state = initialState, action) => {
             }
         }
 
+        case TASK_ACTIONS.SAVE_TRACKING_TASK_FINISH: {
+            const data = action.payload;
+            const message = data.msg;
+            const level = data.status === 201 ?  'success' : 'error';
+            return {
+                ...state,
+                messageToShow: message,
+                messageLevel: level,
+                messageIsOpen: true,
+            }
+        }
+
         // TLE task actions
 
         case TASK_ACTIONS.ADD_TLE_TASK_FRAME: {
@@ -273,20 +297,26 @@ export const tasksReducer = (state = initialState, action) => {
                 time: null,
             };
             const newData = Object.assign({}, state.tleData);
+            const newErrors = Object.assign({}, state.tleDataErrors);
             newData.frames.push(emptyFrame);
+            newErrors.frames.push(Object.assign({}, emptyFrame));
             return {
                 ...state,
                 tleData: newData,
+                tleDataErrors: newErrors,
             }
         }
 
         case TASK_ACTIONS.DELETE_TLE_TASK_FRAME: {
             const { index } = action.payload;
             let newData = Object.assign({}, state.tleData);
+            let newErrors = Object.assign({}, state.tleDataErrors);
             newData.frames = newData.frames.filter( (el, i) => i!== index);
+            newErrors.frames = newErrors.frames.filter( (el, i) => i!== index);
             return {
                 ...state,
                 tleData: newData,
+                tleDataErrors: newErrors,
             }
         }
 

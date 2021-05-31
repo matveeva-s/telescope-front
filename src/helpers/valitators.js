@@ -30,7 +30,7 @@ export const validateTrackingData = (trackingData) => {
         track: [],
         frames: [],
     };
-    let isError = trackingError.satellite || trackingError.count || trackingData.mag;
+    let isError = trackingError.satellite || trackingError.count || trackingError.mag;
     trackingData.track.map(({ alpha, beta, date, time }) => {
         const error = {
             alpha: !alpha,

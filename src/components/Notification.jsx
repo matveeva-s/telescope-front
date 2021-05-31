@@ -10,7 +10,6 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { closeNotification } from "../actions/taskActions";
 
 
-
 export class NotificationComponent extends Component {
     static propTypes = {
         level: PropTypes.string.isRequired,
@@ -38,7 +37,6 @@ export class NotificationComponent extends Component {
                     }}
                     anchorOriginTopRight={ { top: 150, right: 24 } }
                     open={ isOpen }
-                    // autoHideDuration={ 20000 }
                     onClose={ () => this.props.closeNotification() }
                     action={
                         <React.Fragment>

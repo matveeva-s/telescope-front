@@ -20,14 +20,15 @@ import { Notification } from "./Notification";
 import {
     getTelescopesWithBalances,
     changeFormField,
-    savePointTask,
     raiseErrorInMainTaskPart,
     raiseErrorInPointsTask,
     raiseErrorInTrackingTask,
     raiseErrorsInTleTask,
+    savePointTask,
+    saveTrackingTask,
 } from "../actions/taskActions";
-import { preparePoints } from "../helpers/preparePostBody";
-import { countPointsTaskTiming } from "../helpers/timingCalculation";
+import { preparePoints, prepareTrackingTask, prepareFrames, prepareTrack } from "../helpers/preparePostBody";
+import { countPointsTaskTiming, countTrackingTaskTiming, countTleTaskTiming } from "../helpers/timingCalculation";
 import { validatePointsTask, validateTrackingData, validateTleData } from "../helpers/valitators";
 import { emptyValueErrorText } from '../constants/appConstants';
 import { taskFormTheme } from '../styles/themes';
@@ -44,6 +45,7 @@ class NewTaskComponent extends Component {
         raiseErrorsInTleTask: PropTypes.func.isRequired,
         changeFormField: PropTypes.func.isRequired,
         savePointTask: PropTypes.func.isRequired,
+        saveTrackingTask: PropTypes.func.isRequired,
         telescopes: PropTypes.arrayOf(PropTypes.shape({
             value: PropTypes.string,
             label: PropTypes.string,
@@ -72,11 +74,13 @@ class NewTaskComponent extends Component {
     };
 
     get timingText() {
-        const { taskType, points, telescope, telescopes } = this.props;
+        const { taskType, points, telescope, telescopes, trackingData, tleData } = this.props;
         let sumTime = 0;
         let balance = 0;
         if (!taskType || !telescope) return null;
         if (taskType === 1) sumTime = parseFloat(countPointsTaskTiming(points));
+        if (taskType === 2) sumTime = parseFloat(countTrackingTaskTiming(trackingData));
+        if (taskType === 3) sumTime = parseFloat(countTleTaskTiming(tleData));
         if (telescopes && telescopes.length) {
             balance = parseInt(telescopes.filter(el => parseInt(el.value) === telescope)[0].balance);
         }
@@ -112,8 +116,10 @@ class NewTaskComponent extends Component {
             const { trackingData } = this.props;
             const { isError, errors } = validateTrackingData(trackingData);
             if (!isError) {
-                // const preparedPoints = preparePoints(trackingData);
-                // this.props.savePointTask({ telescope, points: preparedPoints });
+                const preparedData = prepareTrackingTask(trackingData);
+                const track = prepareTrack(trackingData.track);
+                const frames = prepareFrames(trackingData.frames);
+                this.props.saveTrackingTask({ telescope, tracking_data: preparedData, track_points: track, frames });
             } else {
                 this.props.raiseErrorInTrackingTask(errors);
                 return;
@@ -213,6 +219,7 @@ const mapDispatchToProps = {
     getTelescopesWithBalances,
     changeFormField,
     savePointTask,
+    saveTrackingTask,
     raiseErrorInMainTaskPart,
     raiseErrorInPointsTask,
     raiseErrorInTrackingTask,

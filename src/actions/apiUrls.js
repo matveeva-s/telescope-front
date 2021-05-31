@@ -11,5 +11,7 @@ export const telescopesApiUrls = {
 
 export const tasksApiUrls = {
     telescopesWithBalances: 'tasks/telescopes_with_balances/',
-    savePointTask: 'tasks/point_task/'
+    savePointTask: 'tasks/point_task/',
+    saveTrackingTask: 'tasks/tracking_task/',
+    saveTleTask: 'tasks/tle_task/',
 };
