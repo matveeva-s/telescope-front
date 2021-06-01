@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Login } from "./components/LoginPage";
 import { Telescopes } from "./components/Telescopes";
 import { NewTask } from "./components/NewTask";
+import { Balance } from "./components/Balance";
 import Hello from "./components/HelloPage";
 import Header from "./components/Header";
 import axiosInstance from "./axiosApi";
@@ -41,6 +42,7 @@ class App extends Component {
                             <Route exact path={"/login/"} component={ Login }/>
                             <Route exact path={"/telescopes/"} component={ Telescopes }/>
                             <Route exact path={"/new-task/"} component={ NewTask }/>
+                            <Route exact path={"/balance/"} component={ Balance }/>
                             <Route exact path={"/"} component={ Hello }/>
                             <Route path={"/"} render={() => <div>Home again</div>}/>
                         </Switch>

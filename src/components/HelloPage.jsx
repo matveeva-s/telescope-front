@@ -10,7 +10,7 @@ class Hello extends Component {
 
     render(){
         return (
-            <div className="new-task-container">
+            <div className="paper-container">
                 <Paper elevation={3} >
                     <div>
                         Добро пожаловать в систему дистанционного управления телескопами!

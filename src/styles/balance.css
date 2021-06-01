@@ -1,0 +1,26 @@
+.balance-content-container {
+    display: flex;
+    flex-direction: column;
+    margin: 1vw 2vw;
+}
+
+
+.balance-page-title {
+    position: relative;
+    padding-top: 1.5vw;
+    padding-bottom: 5vh;
+    font-size: 24px;
+    font-weight: 500;
+    font-family: 'Raleway', sans-serif;
+    color: #12143D;
+}
+
+.balance-telescopes-table-container {
+    width: 60%;
+    margin-bottom: 12vh;
+}
+
+.balance-requests-table-container {
+    width: 90%;
+    margin-bottom: 12vh;
+}

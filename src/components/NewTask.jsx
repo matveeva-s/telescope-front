@@ -144,7 +144,7 @@ class NewTaskComponent extends Component {
     render() {
         const { telescopes, telescope, taskType, telescopeError, taskTypeError } = this.props;
         return (
-            <div className="new-task-container">
+            <div className="paper-container">
                 <Paper elevation={3} >
                     <div className="new-task-form">
                         <ThemeProvider theme={ taskFormTheme }>

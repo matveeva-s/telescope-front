@@ -2,6 +2,7 @@ import { TASK_ACTIONS } from '../actions/actionTypes';
 
 const initialState = {
     telescopesWithBalances: [],
+    requests: [],
     telescope: null,
     taskType: null,
     error: false,
@@ -367,6 +368,14 @@ export const tasksReducer = (state = initialState, action) => {
                 messageToShow: message,
                 messageLevel: level,
                 messageIsOpen: true,
+            }
+        }
+
+        case TASK_ACTIONS.GET_BALANCE_REQUESTS_FINISH :{
+            const data = action.payload;
+            return {
+                ...state,
+                requests: data,
             }
         }
 
