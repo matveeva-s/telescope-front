@@ -12,8 +12,8 @@ export const tasksTypes = [
 ];
 
 export const coordinateSystemTypes = [
-    { value: 0, label: 'Земная СК' },
-    { value: 1, label: 'Звездная СК'},
+    { value: 1, label: 'Земная СК' },
+    { value: 2, label: 'Звездная СК'},
 ];
 
 export const emptyValueErrorText = 'Это поле не должно быть пустым';

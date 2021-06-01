@@ -16,7 +16,7 @@ export const preparePoints = (points) => {
     points.map(el => {
         const dt = convertDateTime(el.date, el.time);
         const {date, time, satellite, systemType, ...elWithoutDateTime} = el;
-        newPoints.push({dt, cs_type: el.systemType, satellite_id: el.satellite, ...elWithoutDateTime});
+        newPoints.push({dt, cs_type: el.systemType - 1, satellite_id: el.satellite, ...elWithoutDateTime});
         return el;
     });
     return newPoints;
