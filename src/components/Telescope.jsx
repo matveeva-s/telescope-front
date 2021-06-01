@@ -32,7 +32,6 @@ export const Telescope = (props) => {
             <CardActionArea>
                 <CardMedia
                     image={ telescope.avatar }
-                    title="Contemplative Reptile"
                     className={classes.media}
                 />
                 <CardContent>
@@ -55,11 +54,11 @@ export const Telescope = (props) => {
                 </CardContent>
             </CardActionArea>
             <CardActions>
-                <Button size="small" color="primary">
+                <Button size="small" color="primary" onClick={() => window.location.href = '/new-task/'}>
                     Добавить задание
                 </Button>
-                <Button size="small" color="primary">
-                    Запросить часы
+                <Button size="small" color="primary" onClick={() => window.location.href = '/balance/'}>
+                    Запросить наблюдательное время
                 </Button>
             </CardActions>
         </Card>

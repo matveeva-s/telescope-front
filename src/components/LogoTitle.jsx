@@ -9,7 +9,7 @@ export const LogoTitleBig = (
 );
 
 export const LogoTitleHeader = (
-    <div className="title-header">
+    <div className="title-header" onClick={() =>  window.location.href = '/' }>
         <div className="title-text-header">Chronous</div>
         <div className="logo-header"/>
     </div>

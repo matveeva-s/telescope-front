@@ -1,0 +1,54 @@
+.paper-container {
+    width: 93%;
+    margin: 1.8vw auto;
+}
+
+.hello-content-container {
+    padding: 30px 40px;
+    height: 500px;
+}
+
+.hello-container {
+    display: flex;
+}
+
+.hello-image-container {
+    margin-left: auto;
+    height: 500px;
+    min-width: 450px;
+    transform: scale(-1, 1);
+    background: url("../images/croped-background.jpg") no-repeat;
+    background-size: contain;
+}
+
+.service-name {
+    color: #12143D;
+    font-weight: 500;
+}
+
+.text {
+    font-family: 'Raleway', sans-serif;
+}
+
+.simple-text {
+    margin-left: 16px;
+    color: #26252d;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 28px;
+}
+
+.title {
+    color: #12143D;
+    font-weight: 400;
+    font-size: 24px;
+    margin-bottom: 12px;
+    margin-left: 50%;
+}
+
+.subtitle {
+    color: #12143D;
+    font-weight: 500;
+    font-size: 20px;
+    margin: 16px 0;
+}
