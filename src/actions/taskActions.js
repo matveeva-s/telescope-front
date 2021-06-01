@@ -214,21 +214,3 @@ export const saveTleTask = (data) => dispatch => {
     }
   })
 };
-
-// for balance page
-
-export const getBalanceRequests = (options = {}) => dispatch => {
-  const token = localStorage.getItem('access_token');
-  return dispatch({
-    [RSAA]: {
-      endpoint: baseApiURL + tasksApiUrls.requests,
-      headers: credentialsHeaders(token),
-      method: 'GET',
-      types: [
-          TASK_ACTIONS.GET_BALANCE_REQUESTS_START,
-          TASK_ACTIONS.GET_BALANCE_REQUESTS_FINISH,
-          TASK_ACTIONS.GET_BALANCE_REQUESTS_FAIL,
-      ]
-    }
-  })
-};
