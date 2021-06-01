@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import Paper from '@material-ui/core/Paper';
-import {mainTheme, taskFormTheme} from "../styles/themes";
+import {mainTheme} from "../styles/themes";
 import {getUserInfo} from "../actions/userActions";
 import {ThemeProvider} from "@material-ui/styles";
 import '../styles/hello.css';

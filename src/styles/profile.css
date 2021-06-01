@@ -1,0 +1,76 @@
+.paper-container {
+    width: 93%;
+    margin: 1.8vw auto;
+}
+
+.profile-title {
+    position: relative;
+    font-size: 30px;
+    font-weight: 500;
+    margin-left: 10px;
+    font-family: 'Raleway', sans-serif;
+    color: #12143D;
+    margin-bottom: 30px;
+}
+
+.profile-page-container {
+    padding: 30px 45px;
+}
+
+.profile-avatar-container{
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.profile-avatar {
+    width: 250px;
+    height: 250px;
+    margin-bottom: 20px;
+}
+
+.profile-content-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.profile-main-form-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    padding-left: 60px;
+}
+
+.profile-main-side-by-side {
+    display: flex;
+}
+
+.profile-form-field-container {
+    margin: 8px 10px;
+}
+
+.short-form-field {
+    width: 320px;
+}
+
+.profile-gender-title {
+    font-family: sans-serif;
+    margin-left: 24px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 11px;
+}
+
+.profile-genders-container {
+    margin-top: 8px;
+    margin-left: 24px;
+}
+
+.profile-saving-container {
+    margin-top: 270px;
+    margin-left: -40px;
+}
