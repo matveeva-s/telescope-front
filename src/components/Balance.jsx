@@ -20,7 +20,7 @@ import { Notification } from "./Notification";
 import {ThemeProvider} from "@material-ui/styles";
 import {taskFormTheme} from "../styles/themes";
 import { getTelescopesWithBalances } from '../actions/taskActions';
-import { getBalanceRequests, saveRequest } from '../actions/balanceActions';
+import { getBalanceRequests, saveRequest, closeNotification } from '../actions/balanceActions';
 import '../styles/balance.css';
 
 
@@ -35,6 +35,10 @@ export class BalanceComponent extends Component {
         getBalanceRequests: PropTypes.func.isRequired,
         saveRequest: PropTypes.func.isRequired,
         requests: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+        notificationMessage: PropTypes.string,
+        notificationLevel: PropTypes.string,
+        notificationIsOpen: PropTypes.bool,
+        closeNotification: PropTypes.func.isRequired,
     };
 
     state = {
@@ -152,6 +156,7 @@ export class BalanceComponent extends Component {
 
     render() {
         const { dialogIsOpen, telescopeId, telescopeName, minutes, minutesError } = this.state;
+        const { notificationIsOpen, notificationLevel, notificationMessage } = this.props;
         return (
             <div className="paper-container">
                 <Paper elevation={3}>
@@ -191,7 +196,12 @@ export class BalanceComponent extends Component {
                       </Button>
                     </DialogActions>
                   </Dialog>
-                  <Notification/>
+                  <Notification
+                      level={ notificationLevel }
+                      message={ notificationMessage }
+                      isOpen={ notificationIsOpen }
+                      closeNotification={ this.props.closeNotification }
+                  />
             </div>
         );
     }
@@ -202,12 +212,16 @@ export class BalanceComponent extends Component {
 const mapStateToProps = ({ balanceReducer, tasksReducer }) => ({
     telescopes: tasksReducer.telescopesWithBalances,
     requests: balanceReducer.requests,
+    notificationLevel: balanceReducer.notificationLevel,
+    notificationMessage: balanceReducer.notificationMessage,
+    notificationIsOpen: balanceReducer.notificationIsOpen,
 });
 
 const mapDispatchToProps = {
     getTelescopesWithBalances,
     getBalanceRequests,
     saveRequest,
+    closeNotification,
 };
 
 export const Balance = connect(

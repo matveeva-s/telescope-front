@@ -46,7 +46,6 @@ class LoginComponent extends Component {
             });
             const data = response.data;
             axiosInstance.defaults.headers['Authorization'] = "JWT " + data.access;
-            console.log('access_token', data.access);
             localStorage.setItem('access_token', data.access);
             localStorage.setItem('refresh_token', data.refresh);
             setTimeout(

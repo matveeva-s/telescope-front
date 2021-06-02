@@ -27,6 +27,7 @@ import {
     savePointTask,
     saveTleTask,
     saveTrackingTask,
+    closeNotification,
 } from "../actions/taskActions";
 import { preparePoints, prepareTrackingTask, prepareFrames, prepareTrack, prepareTleTask } from "../helpers/preparePostBody";
 import { countPointsTaskTiming, countTrackingTaskTiming, countTleTaskTiming } from "../helpers/timingCalculation";
@@ -59,12 +60,19 @@ class NewTaskComponent extends Component {
         tleData: PropTypes.shape().isRequired,
         telescopeError: PropTypes.bool.isRequired,
         taskTypeError: PropTypes.bool.isRequired,
+        notificationMessage: PropTypes.string,
+        notificationLevel: PropTypes.string,
+        notificationIsOpen: PropTypes.bool,
+        closeNotification: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
         telescope: null,
         taskType: null,
         telescopes: {},
+        notificationMessage: '',
+        notificationLevel: '',
+        notificationIsOpen: false,
     };
 
     componentDidMount() {
@@ -142,7 +150,10 @@ class NewTaskComponent extends Component {
     };
 
     render() {
-        const { telescopes, telescope, taskType, telescopeError, taskTypeError } = this.props;
+        const {
+            telescopes, telescope, taskType, telescopeError, taskTypeError,
+            notificationIsOpen, notificationLevel, notificationMessage
+        } = this.props;
         return (
             <div className="paper-container">
                 <Paper elevation={3} >
@@ -179,7 +190,12 @@ class NewTaskComponent extends Component {
                                   { taskTypeError ? <FormHelperText>{ emptyValueErrorText }</FormHelperText> : null }
                                   </FormControl>
                             </div>
-                            <Notification/>
+                            <Notification
+                                level={ notificationLevel }
+                                message={ notificationMessage }
+                                isOpen={ notificationIsOpen }
+                                closeNotification={ this.props.closeNotification }
+                            />
                             { taskType === 1 && <PointsTask/> }
                             { taskType === 2 && <TrackingTask/> }
                             { taskType === 3 && <TLETask/> }
@@ -216,6 +232,9 @@ const mapStateToProps = ({ tasksReducer }) => ({
     tleData: tasksReducer.tleData,
     telescopeError: tasksReducer.telescopeError,
     taskTypeError: tasksReducer.taskTypeError,
+    notificationMessage: tasksReducer.messageToShow,
+    notificationLevel: tasksReducer.messageLevel,
+    notificationIsOpen: tasksReducer.messageIsOpen,
 });
 
 const mapDispatchToProps = {
@@ -228,6 +247,7 @@ const mapDispatchToProps = {
     raiseErrorInPointsTask,
     raiseErrorInTrackingTask,
     raiseErrorsInTleTask,
+    closeNotification,
 };
 
 export const NewTask = connect(

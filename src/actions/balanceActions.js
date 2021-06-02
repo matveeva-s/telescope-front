@@ -1,5 +1,5 @@
 import { RSAA } from 'redux-api-middleware'
-import { TASK_ACTIONS, BALANCE_ACTIONS } from "./actionTypes";
+import {BALANCE_ACTIONS} from "./actionTypes";
 import { credentialsHeaders } from '../constants/appConstants';
 import { balancesApiUrls, baseApiURL } from "./apiUrls";
 
@@ -35,4 +35,10 @@ export const saveRequest = (data) => dispatch => {
       ]
     }
   })
+};
+
+export const closeNotification = () => dispatch => {
+    return dispatch({
+        type: BALANCE_ACTIONS.CLOSE_NOTIFICATION,
+    })
 };

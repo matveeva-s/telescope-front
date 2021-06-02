@@ -30,7 +30,7 @@ class HelloComponent extends Component {
                             <div className="subtitle text"> Что это такое? </div>
                             <div className="text simple-text">
                                 <span className="service-name">Chronous</span> - система, которая позволяет дистанционно
-                                использовать любой подключенный к сети телескоп, проводить наблюдения и хранить их результаты
+                                использовать любой подключенный к сети телескоп, проводить наблюдения, хранить и просматривать их результаты
                             </div>
                             <div className="subtitle text"> Как использовать? </div>
                             <div className="text simple-text">

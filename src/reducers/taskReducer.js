@@ -371,18 +371,6 @@ export const tasksReducer = (state = initialState, action) => {
             }
         }
 
-        case BALANCE_ACTIONS.SAVE_REQUEST_FINISH: {
-            const data = action.payload;
-            const message = data.msg;
-            const level = data.status === 'ok' ?  'success' : 'error';
-            return {
-                ...state,
-                messageToShow: message,
-                messageLevel: level,
-                messageIsOpen: true,
-            }
-        }
-
         default:
             return state
     }

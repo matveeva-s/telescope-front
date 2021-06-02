@@ -11,6 +11,9 @@ const initialState = {
     firstNameError: false,
     lastNameError: false,
     emailError: false,
+    notificationLevel: '',
+    notificationMessage: '',
+    notificationIsOpen: false,
 };
 
 
@@ -38,6 +41,34 @@ export const userReducer = (state = initialState, action) => {
                 [fieldName]: value,
                 [errorFieldName]: false,
             };
+        }
+
+        case USER_ACTIONS.SAVE_PROFILE_FINISH: {
+            const data = action.payload;
+            return {
+                ...state,
+                notificationLevel: 'success',
+                notificationMessage: data,
+                notificationIsOpen: true,
+            };
+        }
+
+        case USER_ACTIONS.SAVE_PROFILE_FAIL: {
+            return {
+                ...state,
+                notificationLevel: 'error',
+                notificationMessage: 'Ошибка сохранения. Проверьте введенные данные.',
+                notificationIsOpen: true,
+            };
+        }
+
+        case USER_ACTIONS.CLOSE_NOTIFICATION: {
+            return {
+                ...state,
+                notificationLevel: '',
+                notificationMessage: '',
+                notificationIsOpen: false,
+            }
         }
 
         default:

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import Snackbar from '@material-ui/core/Snackbar';
@@ -7,10 +6,8 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import MuiAlert from '@material-ui/lab/Alert';
 
-import { closeNotification } from "../actions/taskActions";
 
-
-export class NotificationComponent extends Component {
+export class Notification extends Component {
     static propTypes = {
         level: PropTypes.string.isRequired,
         isOpen: PropTypes.bool.isRequired,
@@ -59,20 +56,3 @@ export class NotificationComponent extends Component {
         );
     }
 }
-
-
-
-const mapStateToProps = ({ tasksReducer }) => ({
-    isOpen: tasksReducer.messageIsOpen,
-    level: tasksReducer.messageLevel,
-    message: tasksReducer.messageToShow,
-});
-
-const mapDispatchToProps = {
-    closeNotification,
-};
-
-export const Notification = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NotificationComponent);

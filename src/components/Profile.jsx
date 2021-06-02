@@ -6,7 +6,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { Button } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 
-import { getUserInfo, changeUserProfileField, saveProfile } from '../actions/userActions';
+import { getUserInfo, changeUserProfileField, saveProfile, closeNotification } from '../actions/userActions';
 import Paper from '@material-ui/core/Paper';
 import '../styles/profile.css';
 import FormControl from "@material-ui/core/FormControl";
@@ -15,6 +15,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import { emptyValueErrorText } from '../constants/appConstants';
+import {Notification} from "./Notification";
 
 
 const avatarStyles = {
@@ -32,19 +33,46 @@ class ProfileComponent extends Component {
         gender: PropTypes.number.isRequired,
         company: PropTypes.string.isRequired,
         position: PropTypes.string.isRequired,
-        firstNameError: PropTypes.string.isRequired,
-        lastNameError: PropTypes.string.isRequired,
-        emailError: PropTypes.string.isRequired,
+        firstNameError: PropTypes.bool.isRequired,
+        lastNameError: PropTypes.bool.isRequired,
+        emailError: PropTypes.bool.isRequired,
         getUserInfo: PropTypes.func.isRequired,
         changeUserProfileField: PropTypes.func.isRequired,
         saveProfile: PropTypes.func.isRequired,
+        notificationMessage: PropTypes.string,
+        notificationLevel: PropTypes.string,
+        notificationIsOpen: PropTypes.bool,
+        closeNotification: PropTypes.func.isRequired,
+    };
+
+    state = {
+        loadedAvatarURL: null,
+    };
+
+    getBase64FromUrl = async (url) => {
+        const data = await fetch(url);
+        const blob = await data.blob();
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onloadend = () => {
+              const base64data = reader.result;
+              resolve(base64data);
+            }
+        });
+    };
+
+    changeAvatar = (base64data) => {
+        this.props.changeUserProfileField('avatar', base64data);
     };
 
 
     handleOnChange = (event) => {
         const newImage = event.target?.files?.[0];
+        const url = URL.createObjectURL(newImage);
+        this.getBase64FromUrl(url).then(this.changeAvatar);
         if (newImage) {
-            this.props.changeUserProfileField('avatar', URL.createObjectURL(newImage));
+            this.setState( {loadedAvatarURL: url});
         };
     };
 
@@ -115,7 +143,11 @@ class ProfileComponent extends Component {
     };
 
     render() {
-        const { avatar, firstName, lastName, position, company, gender, email, firstNameError, lastNameError, emailError } = this.props;
+        const {
+            avatar, firstName, lastName, position, company, gender, email,
+            firstNameError, lastNameError, emailError, notificationLevel, notificationIsOpen, notificationMessage
+        } = this.props;
+        const { loadedAvatarURL } = this.state;
         const inputFileRef = createRef(null);
         return (
             <div className="paper-container">
@@ -125,7 +157,7 @@ class ProfileComponent extends Component {
                         <div className="profile-content-container">
                             <div className="profile-avatar-container">
                                 <Avatar
-                                    src={ avatar }
+                                    src={ loadedAvatarURL ? loadedAvatarURL : avatar }
                                     style={ avatarStyles }
                                 />
                                 <input
@@ -168,6 +200,12 @@ class ProfileComponent extends Component {
                                     onClick={() => this.saveProfile()}
                                 >Сохранить</Button>
                             </div>
+                            <Notification
+                                level={ notificationLevel }
+                                message={ notificationMessage }
+                                isOpen={ notificationIsOpen }
+                                closeNotification={ this.props.closeNotification }
+                            />
                         </div>
                     </div>
                 </Paper>
@@ -187,12 +225,16 @@ const mapStateToProps = ({ userReducer }) => ({
     firstNameError: userReducer.firstNameError,
     lastNameError: userReducer.lastNameError,
     emailError: userReducer.emailError,
+    notificationLevel: userReducer.notificationLevel,
+    notificationMessage: userReducer.notificationMessage,
+    notificationIsOpen: userReducer.notificationIsOpen,
 });
 
 const mapDispatchToProps = {
     getUserInfo,
     saveProfile,
     changeUserProfileField,
+    closeNotification,
 };
 
 const Profile = connect(

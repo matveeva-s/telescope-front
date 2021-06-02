@@ -20,10 +20,10 @@ export const getUserInfo = (options = {}) => dispatch => {
 };
 
 export const changeUserProfileField = (fieldName, value) => dispatch => {
-  return dispatch({
-      type: USER_ACTIONS.CHANGE_USER_PROFILE_FIELD,
-      payload: { fieldName, value }
-  })
+    return dispatch({
+        type: USER_ACTIONS.CHANGE_USER_PROFILE_FIELD,
+        payload: { fieldName, value }
+    })
 };
 
 
@@ -42,4 +42,10 @@ export const saveProfile = (data) => dispatch => {
       ]
     }
   })
+};
+
+export const closeNotification = () => dispatch => {
+    return dispatch({
+        type: USER_ACTIONS.CLOSE_NOTIFICATION,
+    })
 };
