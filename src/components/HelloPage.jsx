@@ -29,7 +29,7 @@ class HelloComponent extends Component {
                             <div className="title text">{ firstName || 'Пользователь'}, добро пожаловать!</div>
                             <div className="subtitle text"> Что это такое? </div>
                             <div className="text simple-text">
-                                <span className="service-name">Chronous</span> - система, которая позволяет дистанционно
+                                <span className="service-name">Chronos</span> - система, которая позволяет дистанционно
                                 использовать любой подключенный к сети телескоп, проводить наблюдения, хранить и просматривать их результаты
                             </div>
                             <div className="subtitle text"> Как использовать? </div>
@@ -42,7 +42,7 @@ class HelloComponent extends Component {
                                 <li>Подожди пока администратор одобрит её и твой баланс пополнится</li>
                                 <li>Создай <a href="new-task/">новое наблюдение</a>, выбрав телескоп и тип наблюдения</li>
                                 <li>
-                                    Когда наблюдение выполнится и <span className="service-name">Chronous</span> получит
+                                    Когда наблюдение выполнится и <span className="service-name">Chronos</span> получит
                                     результат, ты найдешь его <a href="tasks/">здесь</a>
                                 </li>
                             </div>
