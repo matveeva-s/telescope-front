@@ -1,4 +1,5 @@
-export const baseApiURL = 'https://chronos-system.ru/api/';
+// export const baseApiURL = 'http://127.0.0.1:8000/api/';   //local
+export const baseApiURL = 'https://chronos-system.ru/api/';  //prod
 
 export const userApiUrls = {
     mainUserInfo: 'user_data/',
