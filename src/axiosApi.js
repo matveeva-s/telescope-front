@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const baseURL = 'http://127.0.0.1:8000/api/';
+//const baseURL = 'http://127.0.0.1:8000/api/';
+const baseURL = 'https://chronos-system.ru/api/';
 
 const axiosInstance = axios.create({
     baseURL: baseURL,
@@ -8,7 +9,8 @@ const axiosInstance = axios.create({
     headers: {
         'Authorization': "JWT " + localStorage.getItem('access_token') ? localStorage.getItem('access_token') : 'cococo',
         'Content-Type': 'application/json',
-        'accept': 'application/json'
+        'accept': 'application/json',
+	'Access-Control-Allow-Origin': '*',
     }
 });
 
