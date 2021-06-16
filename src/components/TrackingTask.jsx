@@ -38,11 +38,11 @@ class TrackingTaskComponent extends Component {
         const { trackingData, trackingDataErrors } = this.props;
         let satellite = null;
         let mag = null;
-        let count = null;
+        let stepSec = null;
         if (trackingData) {
             satellite = trackingData.satellite;
             mag = trackingData.mag;
-            count = trackingData.count;
+            stepSec = trackingData.stepSec;
         }
         return (
             <div className="tracking-task-form-container">
@@ -80,13 +80,13 @@ class TrackingTaskComponent extends Component {
                         <FormControl variant="outlined">
                             <TextField
                                 variant="outlined"
-                                placeholder="COUNT"
-                                label="COUNT"
-                                value={ count }
-                                onChange={ event => this.props.changeTrackingTaskFormField('count', parseInt(event.target.value)) }
+                                placeholder="Временной шаг"
+                                label="Временной шаг"
+                                value={ stepSec }
+                                onChange={ event => this.props.changeTrackingTaskFormField('stepSec', parseInt(event.target.value)) }
                                 type="number"
-                                error={ trackingDataErrors && trackingDataErrors.count }
-                                helperText={ trackingDataErrors && trackingDataErrors.count ? emptyValueErrorText : null }
+                                error={ trackingDataErrors && trackingDataErrors.stepSec }
+                                helperText={ trackingDataErrors && trackingDataErrors.stepSec ? emptyValueErrorText : null }
                             />
                         </FormControl>
                     </div>

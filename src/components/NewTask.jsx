@@ -83,17 +83,27 @@ class NewTaskComponent extends Component {
         limitExceeded: false,
     };
 
-    get timingText() {
-        const { taskType, points, telescope, telescopes, trackingData, tleData } = this.props;
-        let sumTime = 0;
-        let balance = 0;
-        if (!taskType || !telescope) return null;
-        if (taskType === 1) sumTime = parseFloat(countPointsTaskTiming(points));
-        if (taskType === 2) sumTime = parseFloat(countTrackingTaskTiming(trackingData));
-        if (taskType === 3) sumTime = parseFloat(countTleTaskTiming(tleData));
-        if (telescopes && telescopes.length) {
-            balance = parseInt(telescopes.filter(el => parseInt(el.value) === telescope)[0].balance);
+    getBalance = () => {
+        const { telescope, telescopes } = this.props;
+        if (telescope && telescopes && telescopes.length) {
+            return parseInt(telescopes.filter(el => parseInt(el.value) === telescope)[0].balance);
         }
+        return 0;
+    };
+
+    getTaskTiming = () => {
+        const { taskType, points, telescope, trackingData, tleData } = this.props;
+        if (!taskType || !telescope) return 0;
+        if (taskType === 1) return parseFloat(countPointsTaskTiming(points));
+        if (taskType === 2) return parseFloat(countTrackingTaskTiming(trackingData));
+        if (taskType === 3) return parseFloat(countTleTaskTiming(tleData));
+    };
+
+    get timingText() {
+        const { taskType, telescope } = this.props;
+        let sumTime = this.getTaskTiming();
+        let balance = this.getBalance();
+        if (!taskType || !telescope || !sumTime) return null;
         const successText = `Предполагаемое общее время наблюдения ${ sumTime } минут, с баланса спишется ${ Math.ceil(sumTime) } минут`;
         const errorText = `Предполагаемое общее время наблюдения ${ sumTime } минут, тебе не хватает наблюдательного времени на этом телескопе`;
         if (sumTime < 1) return null;
@@ -206,7 +216,7 @@ class NewTaskComponent extends Component {
                                         variant="contained"
                                         color="primary"
                                         onClick={ () => this.saveTask() }
-                                        disabled={ this.state.limitExceeded || !taskType }
+                                        disabled={ this.getTaskTiming() > this.getBalance() || !taskType || !telescope }
                                         endIcon={<SendIcon>Отправить на наблюдение</SendIcon>}
                                     >
                                         Отправить на наблюдение

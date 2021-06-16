@@ -26,11 +26,11 @@ export const validateTrackingData = (trackingData) => {
     let trackingError = {
         satellite: !trackingData.satellite,
         mag: !trackingData.mag,
-        count: !trackingData.count,
+        stepSec: !trackingData.stepSec,
         track: [],
         frames: [],
     };
-    let isError = trackingError.satellite || trackingError.count || trackingError.mag;
+    let isError = trackingError.satellite || trackingError.stepSec || trackingError.mag;
     trackingData.track.map(({ alpha, beta, date, time }) => {
         const error = {
             alpha: !alpha,

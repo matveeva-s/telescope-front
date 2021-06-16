@@ -27,8 +27,8 @@ export const prepareTrackingTask = (trackingData) => {
     let newTrackingData = {
         satellite_id: trackingData.satellite,
         mag: trackingData.mag,
-        count: trackingData.count,
-        step_sec: 1,
+        count: trackingData.track.length,
+        step_sec: trackingData.stepSec,
     };
     return newTrackingData;
 };

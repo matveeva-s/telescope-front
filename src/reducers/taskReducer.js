@@ -1,4 +1,4 @@
-import { TASK_ACTIONS, BALANCE_ACTIONS } from '../actions/actionTypes';
+import { TASK_ACTIONS } from '../actions/actionTypes';
 
 const initialState = {
     telescopesWithBalances: [],
@@ -11,7 +11,7 @@ const initialState = {
     trackingData: {
         satellite: null,
         mag: null,
-        count: null,
+        stepSec: null,
         track: [],
         frames: [],
     },
@@ -28,7 +28,7 @@ const initialState = {
     trackingDataErrors: {
         satellite: false,
         mag: false,
-        count: false,
+        stepSec: false,
         track: [],
         frames: [],
     },
