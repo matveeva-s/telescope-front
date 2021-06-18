@@ -20,6 +20,22 @@ export const getTelescopesWithBalances = (options = {}) => dispatch => {
   })
 };
 
+export const getTelescopeSchedule = (telescopeId) => dispatch => {
+  const token = localStorage.getItem('access_token');
+  return dispatch({
+    [RSAA]: {
+      endpoint: baseApiURL + tasksApiUrls.telescopeSchedule(telescopeId),
+      headers: credentialsHeaders(token),
+      method: 'GET',
+      types: [
+          TASK_ACTIONS.GET_TELESCOPE_SCHEDULE_START,
+          TASK_ACTIONS.GET_TELESCOPE_SCHEDULE_FINISH,
+          TASK_ACTIONS.GET_TELESCOPE_SCHEDULE_FAIL
+      ]
+    }
+  })
+};
+
 
 export const closeNotification = () => dispatch => {
     return dispatch({

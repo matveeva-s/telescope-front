@@ -29,6 +29,7 @@ import {
     saveTrackingTask,
     closeNotification,
     openNotification,
+    getTelescopeSchedule,
 } from "../actions/taskActions";
 import { preparePoints, prepareTrackingTask, prepareFrames, prepareTrack, prepareTleTask } from "../helpers/preparePostBody";
 import { countPointsTaskTiming, countTrackingTaskTiming, countTleTaskTiming } from "../helpers/timingCalculation";
@@ -42,6 +43,8 @@ import '../styles/newTask.css';
 class NewTaskComponent extends Component {
     static propTypes = {
         getTelescopesWithBalances: PropTypes.func.isRequired,
+        getTelescopeSchedule: PropTypes.func.isRequired,
+        schedule: PropTypes.arrayOf(PropTypes.string).isRequired,
         raiseErrorInMainTaskPart: PropTypes.func.isRequired,
         raiseErrorInPointsTask: PropTypes.func.isRequired,
         raiseErrorInTrackingTask: PropTypes.func.isRequired,
@@ -81,6 +84,12 @@ class NewTaskComponent extends Component {
         this.props.getTelescopesWithBalances();
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.telescope !== this.props.telescope) {
+            this.props.getTelescopeSchedule(this.props.telescope);
+        }
+    }
+
     state = {
         limitExceeded: false,
     };
@@ -96,14 +105,25 @@ class NewTaskComponent extends Component {
     getTaskTiming = () => {
         const { taskType, points, telescope, trackingData, tleData } = this.props;
         if (!taskType || !telescope) return 0;
-        if (taskType === 1) return parseFloat(countPointsTaskTiming(points));
-        if (taskType === 2) return parseFloat(countTrackingTaskTiming(trackingData));
-        if (taskType === 3) return parseFloat(countTleTaskTiming(tleData));
+        if (taskType === 1) return countPointsTaskTiming(points);
+        if (taskType === 2) return countTrackingTaskTiming(trackingData);
+        if (taskType === 3) return countTleTaskTiming(tleData);
     };
+
+    get schedule() {
+        const { schedule } = this.props;
+        if (!schedule.length) return;
+        return (
+            <div className="schedule-container">
+                <div className="subtitle-text">Занятые слоты времени:</div>
+                { schedule.map(el => <div className="schedule-text-container">{ el }</div>) }
+            </div>
+        )
+    }
 
     get timingText() {
         const { taskType, telescope } = this.props;
-        let sumTime = this.getTaskTiming();
+        let sumTime = parseFloat(this.getTaskTiming().duration);
         let balance = this.getBalance();
         if (!taskType || !telescope || !sumTime) return null;
         const successText = `Предполагаемое общее время наблюдения ${ sumTime } минут, с баланса спишется ${ Math.ceil(sumTime) } минут`;
@@ -123,7 +143,8 @@ class NewTaskComponent extends Component {
         const { telescope, taskType } = this.props;
         if (!telescope) this.props.raiseErrorInMainTaskPart('telescope');
         if (!taskType) this.props.raiseErrorInMainTaskPart('taskType');
-        const timing = this.getTaskTiming();
+        let { duration, minTime, maxTime } = this.getTaskTiming();
+        duration = Math.ceil(parseFloat(duration));
         if (this.props.taskType === 1) {
             const { points } = this.props;
             const { isError, errors } = validatePointsTask(points);
@@ -133,7 +154,7 @@ class NewTaskComponent extends Component {
                     this.props.openNotification(checkTimeCollisions(preparedPoints), 'error');
                     return;
                 };
-                this.props.savePointTask({ telescope, points: preparedPoints, timing });
+                this.props.savePointTask({ telescope, points: preparedPoints, duration, min_dt: minTime, max_dt: maxTime });
             } else {
                 this.props.raiseErrorInPointsTask(errors);
                 return;
@@ -146,7 +167,7 @@ class NewTaskComponent extends Component {
                 const preparedData = prepareTrackingTask(trackingData);
                 const track = prepareTrack(trackingData.track);
                 const frames = prepareFrames(trackingData.frames);
-                this.props.saveTrackingTask({ telescope, tracking_data: preparedData, track_points: track, frames, timing });
+                this.props.saveTrackingTask({ telescope, tracking_data: preparedData, track_points: track, frames, duration, min_dt: minTime, max_dt: maxTime });
             } else {
                 this.props.raiseErrorInTrackingTask(errors);
                 return;
@@ -158,7 +179,7 @@ class NewTaskComponent extends Component {
             if (!isError) {
                 const frames = prepareFrames(tleData.frames);
                 const preparedData = prepareTleTask(tleData);
-                this.props.saveTleTask({ telescope, tle_data: preparedData, frames, timing });
+                this.props.saveTleTask({ telescope, tle_data: preparedData, frames, duration, min_dt: minTime, max_dt: maxTime });
             } else {
                 this.props.raiseErrorsInTleTask(errors);
                 return;
@@ -207,6 +228,7 @@ class NewTaskComponent extends Component {
                                   { taskTypeError ? <FormHelperText>{ emptyValueErrorText }</FormHelperText> : null }
                                   </FormControl>
                             </div>
+                            { this.schedule }
                             <Notification
                                 level={ notificationLevel }
                                 message={ notificationMessage }
@@ -223,7 +245,7 @@ class NewTaskComponent extends Component {
                                         variant="contained"
                                         color="primary"
                                         onClick={ () => this.saveTask() }
-                                        disabled={ this.getTaskTiming() > this.getBalance() || !taskType || !telescope }
+                                        disabled={ this.getTaskTiming().duration > this.getBalance() || !taskType || !telescope }
                                         endIcon={<SendIcon>Отправить на наблюдение</SendIcon>}
                                     >
                                         Отправить на наблюдение
@@ -252,6 +274,7 @@ const mapStateToProps = ({ tasksReducer }) => ({
     notificationMessage: tasksReducer.messageToShow,
     notificationLevel: tasksReducer.messageLevel,
     notificationIsOpen: tasksReducer.messageIsOpen,
+    schedule: tasksReducer.schedule,
 });
 
 const mapDispatchToProps = {
@@ -266,6 +289,7 @@ const mapDispatchToProps = {
     raiseErrorsInTleTask,
     closeNotification,
     openNotification,
+    getTelescopeSchedule,
 };
 
 export const NewTask = connect(

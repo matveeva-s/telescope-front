@@ -1,25 +1,8 @@
 import { telescopeTurnTime } from "../constants/appConstants";
 
-const countTimingFromExposures = (array) => {
-    if (!array) {
-        return 0;
-    }
-    let sum = 0;
-    array.map(el => {
-        if (el && el.exposure) {
-            sum = sum + parseInt(el.exposure) + telescopeTurnTime;
-        }
-        return el;
-    });
-    return (sum/60).toFixed(2);
-};
-
-const countTimingToTracking = (track) => {
-    if (!track) {
-        return 0;
-    }
+const getUnixTimeArray = (array) => {
     let unixTimes = [];
-    track.map(el => {
+    array.map(el => {
         if (!el.time || !el.date) return el;
         const year = el.date.getFullYear();
         const month = el.date.getMonth();
@@ -30,23 +13,61 @@ const countTimingToTracking = (track) => {
         const unixDT = new Date(year, month, day, hours, minutes, seconds).getTime();
         unixTimes.push(unixDT);
     });
-    let maxTime = unixTimes[0];
-    let minTime = unixTimes[0];
-    unixTimes.map(el => el > maxTime ? maxTime = el : null);
-    unixTimes.map(el => el < minTime ? minTime = el : null);
-    return ((maxTime - minTime)/60000).toFixed(2);
+    return unixTimes;
 };
 
 export const countPointsTaskTiming = (points) => {
-    return countTimingFromExposures(points);
+    const unixTimes = getUnixTimeArray(points);
+    let maxTime = unixTimes[0];
+    let minTime = unixTimes[0];
+    let maxTimeExp = 0;
+    unixTimes.map(el => el < minTime ? minTime = el : null);
+    unixTimes.map((el, index) => {
+        if (el >= maxTime) {
+            maxTime = el;
+            maxTimeExp = points[index].exposure;
+        }
+    });
+    minTime = new Date(minTime);
+    maxTime = new Date(maxTime + maxTimeExp*1000 + telescopeTurnTime*1000);
+    const duration = ((maxTime - minTime)/60000).toFixed(2);
+    return { duration, minTime, maxTime };
 };
 
 export const countTrackingTaskTiming = (trackingData) => {
     const track = trackingData ? trackingData.track : [];
-    return countTimingToTracking(track);
+    if (track.length < 2) return { duration: 0, maxTime: 0, minTime: 0 };
+    const unixTimes = getUnixTimeArray(track);
+    let maxTime = unixTimes[0];
+    let minTime = unixTimes[0];
+    unixTimes.map(el => el < minTime ? minTime = el : null);
+    unixTimes.map((el, index) => {
+        if (el >= maxTime) {
+            maxTime = el;
+        }
+    });
+    minTime = new Date(minTime);
+    maxTime = new Date(maxTime + telescopeTurnTime*1000);
+    const duration = ((maxTime - minTime)/60000).toFixed(2);
+    return { duration, minTime, maxTime };
 };
 
 export const countTleTaskTiming = (tleData) => {
     const frames = tleData ? tleData.frames : [];
-    return countTimingToTracking(frames);
+    if (frames.length < 2) return { duration: 0, maxTime: 0, minTime: 0 };
+    const unixTimes = getUnixTimeArray(frames);
+    let maxTime = unixTimes[0];
+    let minTime = unixTimes[0];
+    let maxTimeExp = 0;
+    unixTimes.map(el => el < minTime ? minTime = el : null);
+    unixTimes.map((el, index) => {
+        if (el >= maxTime) {
+            maxTime = el;
+            maxTimeExp = frames[index].exposure;
+        }
+    });
+    minTime = new Date(minTime );
+    maxTime = new Date(maxTime + maxTimeExp*1000 + telescopeTurnTime*1000);
+    const duration = ((maxTime - minTime)/60000).toFixed(2);
+    return { duration, minTime, maxTime };
 };

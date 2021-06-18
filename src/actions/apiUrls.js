@@ -11,11 +11,14 @@ export const telescopesApiUrls = {
     telescopesList: 'tasks/telescopes/',
 };
 
+const telescopeSchedule = (telescopeId) => `tasks/${telescopeId}/schedule/`;
+
 export const tasksApiUrls = {
     telescopesWithBalances: 'tasks/telescopes_with_balances/',
     savePointTask: 'tasks/point_task/',
     saveTrackingTask: 'tasks/tracking_task/',
     saveTleTask: 'tasks/tle_task/',
+    telescopeSchedule,
 };
 
 export const balancesApiUrls = {

@@ -106,6 +106,18 @@
     margin-right: auto;
 }
 
+.schedule-text-container {
+    font-family: 'Raleway', sans-serif;
+    color: black;
+    margin-left: 20px;
+    margin-bottom: 4px;
+}
+.schedule-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 28px;
+}
+
 
 .tracking-task-form-container {
     display: flex;

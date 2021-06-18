@@ -2,6 +2,7 @@ import { TASK_ACTIONS } from '../actions/actionTypes';
 
 const initialState = {
     telescopesWithBalances: [],
+    schedule: [],
     requests: [],
     telescope: null,
     taskType: null,
@@ -68,6 +69,13 @@ export const tasksReducer = (state = initialState, action) => {
                 error: true,
             };
 
+       case TASK_ACTIONS.GET_TELESCOPE_SCHEDULE_FINISH: {
+            const data = action.payload.schedule;
+            return {
+                ...state,
+                schedule: data,
+            };
+        }
         // main task actions
 
         case TASK_ACTIONS.CHANGE_FORM_FIELD: {
