@@ -21,6 +21,23 @@ export const validatePointsTask = points => {
     return { isError, errors };
 };
 
+export const checkTimeCollisions = points => {
+    const ranges = [];
+    let error = '';
+    points.map(({ dt, exposure }) => {
+        ranges.push({startTime:  dt, endTime: new Date(dt.getTime() + exposure*1000)});
+        return dt;
+    });
+    ranges.map((el, index) => {
+        ranges.map((iter_el, iter_index) => {
+            if (iter_el.endTime > el.startTime && iter_el.endTime < el.endTime && index !== iter_index) {
+                error = `Съемка точки №${index+1} начинается раньше, чем заканчивается съемка точки №${iter_index+1}`;
+            }
+        })
+    });
+    return error;
+}
+
 
 export const validateTrackingData = (trackingData) => {
     let trackingError = {

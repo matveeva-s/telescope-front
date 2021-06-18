@@ -214,3 +214,10 @@ export const saveTleTask = (data) => dispatch => {
     }
   })
 };
+
+export const openNotification = (message, level) => dispatch => {
+  return dispatch({
+      type: TASK_ACTIONS.OPEN_NOTIFICATION,
+      payload: { message, level },
+  })
+};

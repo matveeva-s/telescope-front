@@ -28,10 +28,11 @@ import {
     saveTleTask,
     saveTrackingTask,
     closeNotification,
+    openNotification,
 } from "../actions/taskActions";
 import { preparePoints, prepareTrackingTask, prepareFrames, prepareTrack, prepareTleTask } from "../helpers/preparePostBody";
 import { countPointsTaskTiming, countTrackingTaskTiming, countTleTaskTiming } from "../helpers/timingCalculation";
-import { validatePointsTask, validateTrackingData, validateTleData } from "../helpers/valitators";
+import { validatePointsTask, validateTrackingData, validateTleData, checkTimeCollisions } from "../helpers/valitators";
 import { emptyValueErrorText } from '../constants/appConstants';
 import { taskFormTheme } from '../styles/themes';
 import '../styles/newTask.css';
@@ -64,6 +65,7 @@ class NewTaskComponent extends Component {
         notificationLevel: PropTypes.string,
         notificationIsOpen: PropTypes.bool,
         closeNotification: PropTypes.func.isRequired,
+        openNotification: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -121,12 +123,17 @@ class NewTaskComponent extends Component {
         const { telescope, taskType } = this.props;
         if (!telescope) this.props.raiseErrorInMainTaskPart('telescope');
         if (!taskType) this.props.raiseErrorInMainTaskPart('taskType');
+        const timing = this.getTaskTiming();
         if (this.props.taskType === 1) {
             const { points } = this.props;
             const { isError, errors } = validatePointsTask(points);
             if (!isError) {
                 const preparedPoints = preparePoints(points);
-                this.props.savePointTask({ telescope, points: preparedPoints });
+                if (checkTimeCollisions(preparedPoints)) {
+                    this.props.openNotification(checkTimeCollisions(preparedPoints), 'error');
+                    return;
+                };
+                this.props.savePointTask({ telescope, points: preparedPoints, timing });
             } else {
                 this.props.raiseErrorInPointsTask(errors);
                 return;
@@ -139,7 +146,7 @@ class NewTaskComponent extends Component {
                 const preparedData = prepareTrackingTask(trackingData);
                 const track = prepareTrack(trackingData.track);
                 const frames = prepareFrames(trackingData.frames);
-                this.props.saveTrackingTask({ telescope, tracking_data: preparedData, track_points: track, frames });
+                this.props.saveTrackingTask({ telescope, tracking_data: preparedData, track_points: track, frames, timing });
             } else {
                 this.props.raiseErrorInTrackingTask(errors);
                 return;
@@ -151,7 +158,7 @@ class NewTaskComponent extends Component {
             if (!isError) {
                 const frames = prepareFrames(tleData.frames);
                 const preparedData = prepareTleTask(tleData);
-                this.props.saveTleTask({ telescope, tle_data: preparedData, frames });
+                this.props.saveTleTask({ telescope, tle_data: preparedData, frames, timing });
             } else {
                 this.props.raiseErrorsInTleTask(errors);
                 return;
@@ -258,6 +265,7 @@ const mapDispatchToProps = {
     raiseErrorInTrackingTask,
     raiseErrorsInTleTask,
     closeNotification,
+    openNotification,
 };
 
 export const NewTask = connect(

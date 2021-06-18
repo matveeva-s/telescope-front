@@ -149,12 +149,32 @@ export const tasksReducer = (state = initialState, action) => {
             }
         }
 
+        case TASK_ACTIONS.SAVE_POINT_TASK_FAIL: {
+            const data = action.payload.response.msg;
+            return {
+                ...state,
+                messageToShow: data,
+                messageLevel: 'error',
+                messageIsOpen: true,
+            }
+        }
+
         case TASK_ACTIONS.CLOSE_NOTIFICATION: {
             return {
                 ...state,
                 messageToShow: '',
                 messageLevel: '',
                 messageIsOpen: false,
+            }
+        }
+
+        case TASK_ACTIONS.OPEN_NOTIFICATION: {
+            const { message, level } = action.payload;
+            return {
+                ...state,
+                messageToShow: message,
+                messageLevel: level,
+                messageIsOpen: true,
             }
         }
 
