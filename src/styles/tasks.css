@@ -1,0 +1,26 @@
+.tasks-content-container {
+    display: flex;
+    flex-direction: column;
+    margin: 1vw 2vw;
+}
+
+
+.tasks-page-title {
+    position: relative;
+    padding-top: 1.5vw;
+    padding-bottom: 5vh;
+    font-size: 24px;
+    font-weight: 500;
+    font-family: 'Raleway', sans-serif;
+    color: #12143D;
+}
+
+.tasks-telescopes-table-container {
+    width: 60%;
+    margin-bottom: 12vh;
+}
+
+.tasks-requests-table-container {
+    width: 98%;
+    margin-bottom: 12vh;
+}

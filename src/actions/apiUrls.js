@@ -18,6 +18,7 @@ export const tasksApiUrls = {
     savePointTask: 'tasks/point_task/',
     saveTrackingTask: 'tasks/tracking_task/',
     saveTleTask: 'tasks/tle_task/',
+    getUserTasks: 'tasks/get_tasks/',
     telescopeSchedule,
 };
 

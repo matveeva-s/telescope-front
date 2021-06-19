@@ -237,3 +237,22 @@ export const openNotification = (message, level) => dispatch => {
       payload: { message, level },
   })
 };
+
+
+// tasks page
+
+export const getUserTasks = () => dispatch => {
+  const token = localStorage.getItem('access_token');
+  return dispatch({
+    [RSAA]: {
+      endpoint: baseApiURL + tasksApiUrls.getUserTasks,
+      headers: credentialsHeaders(token),
+      method: 'GET',
+      types: [
+          TASK_ACTIONS.GET_USER_TASKS_START,
+          TASK_ACTIONS.GET_USER_TASKS_FINISH,
+          TASK_ACTIONS.GET_USER_TASKS_FAIL,
+      ]
+    }
+  })
+};

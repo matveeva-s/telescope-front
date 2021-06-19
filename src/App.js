@@ -4,6 +4,7 @@ import { Login } from "./components/LoginPage";
 import { Telescopes } from "./components/Telescopes";
 import { NewTask } from "./components/NewTask";
 import { Balance } from "./components/Balance";
+import { Tasks } from "./components/Tasks";
 import Profile from "./components/Profile";
 import Hello from "./components/HelloPage";
 import Header from "./components/Header";
@@ -45,6 +46,7 @@ class App extends Component {
                             <Route exact path={"/new-task/"} component={ NewTask }/>
                             <Route exact path={"/balance/"} component={ Balance }/>
                             <Route exact path={"/profile/"} component={ Profile }/>
+                            <Route exact path={"/tasks/"} component={ Tasks }/>
                             <Route exact path={"/"} component={ Hello }/>
                             <Route path={"/"} render={() => <div>Home again</div>}/>
                         </Switch>

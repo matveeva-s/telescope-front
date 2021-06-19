@@ -2,6 +2,7 @@ import { TASK_ACTIONS } from '../actions/actionTypes';
 
 const initialState = {
     telescopesWithBalances: [],
+    tasks: [],
     schedule: [],
     requests: [],
     telescope: null,
@@ -396,6 +397,16 @@ export const tasksReducer = (state = initialState, action) => {
                 messageToShow: message,
                 messageLevel: level,
                 messageIsOpen: true,
+            }
+        }
+
+        //tasks page
+
+        case TASK_ACTIONS.GET_USER_TASKS_FINISH: {
+            const data = action.payload;
+            return {
+                ...state,
+                tasks: data,
             }
         }
 
