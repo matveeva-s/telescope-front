@@ -77,7 +77,7 @@ class LoginComponent extends Component {
                             <div className="login_page--form-element">
                                 <TextField
                                     name="username"
-                                    placeholder="Адрес email"
+                                    placeholder="Имя пользователя"
                                     value={ username }
                                     onChange={ this.handleChange }
                                     className="login_page--form-input"
