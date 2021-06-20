@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import { ThemeProvider } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
+import SearchIcon from '@material-ui/icons/Search';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -197,7 +198,26 @@ class NewTaskComponent extends Component {
                 <Paper elevation={3} >
                     <div className="new-task-form">
                         <ThemeProvider theme={ taskFormTheme }>
-                            <div className="new-task-title">Новое наблюдение</div>
+                            <div className="new-task-title-button-container">
+                                <div className="new-task-title">Новое наблюдение</div>
+                                <div className="new-task-button">
+                                    <input
+                                        hidden
+                                        id="avatar-image-upload"
+                                        type="file"
+                                      />
+                                    <label htmlFor="avatar-image-upload">
+                                        <Button
+                                                // variant="contained"
+                                                color="primary"
+                                                component="span"
+                                                startIcon={<SearchIcon />}
+                                            >
+                                              загрузить план
+                                        </Button>
+                                    </label>
+                                </div>
+                            </div>
                             <div className="new-task-selector-container">
                                 <FormControl className="new-task-selector" variant="outlined" error={ telescopeError }>
                                     <InputLabel id="telescope-label">Телескоп</InputLabel>
