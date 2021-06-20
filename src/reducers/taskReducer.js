@@ -3,6 +3,7 @@ import { TASK_ACTIONS } from '../actions/actionTypes';
 const initialState = {
     telescopesWithBalances: [],
     tasks: [],
+    taskResult: {},
     schedule: [],
     requests: [],
     telescope: null,
@@ -409,6 +410,15 @@ export const tasksReducer = (state = initialState, action) => {
                 tasks: data,
             }
         }
+
+        case TASK_ACTIONS.GET_TASK_RESULTS_FINISH: {
+            const data = action.payload;
+            return {
+                ...state,
+                taskResult: data,
+            }
+        }
+
 
         default:
             return state

@@ -256,3 +256,20 @@ export const getUserTasks = () => dispatch => {
     }
   })
 };
+
+
+export const getTaskResult = (id) => dispatch => {
+  const token = localStorage.getItem('access_token');
+  return dispatch({
+    [RSAA]: {
+      endpoint: baseApiURL + tasksApiUrls.taskResult(id),
+      headers: credentialsHeaders(token),
+      method: 'GET',
+      types: [
+          TASK_ACTIONS.GET_TASK_RESULTS_START,
+          TASK_ACTIONS.GET_TASK_RESULTS_FINISH,
+          TASK_ACTIONS.GET_TASK_RESULTS_FAIL,
+      ]
+    }
+  })
+};

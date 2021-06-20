@@ -12,6 +12,7 @@ export const telescopesApiUrls = {
 };
 
 const telescopeSchedule = (telescopeId) => `tasks/${telescopeId}/schedule/`;
+const taskResult = (taskId) => `tasks/${taskId}/get_result/`;
 
 export const tasksApiUrls = {
     telescopesWithBalances: 'tasks/telescopes_with_balances/',
@@ -20,6 +21,7 @@ export const tasksApiUrls = {
     saveTleTask: 'tasks/tle_task/',
     getUserTasks: 'tasks/get_tasks/',
     telescopeSchedule,
+    taskResult,
 };
 
 export const balancesApiUrls = {

@@ -52,7 +52,9 @@ export class TasksComponent extends Component {
                                 <TableCell align="center">{row.status}</TableCell>
                                 <TableCell align="center">{row.start_dt}</TableCell>
                                 <TableCell align="center">{row.end_dt}</TableCell>
-                                <TableCell align="center"><a href={row.url}>Открыть</a></TableCell>
+                                <TableCell align="center">
+                                    { row.url ? <a href={row.url}>Открыть</a> : null }
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
